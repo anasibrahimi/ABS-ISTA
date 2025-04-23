@@ -18,6 +18,7 @@ class Router {
         $method = $_SERVER['REQUEST_METHOD'];
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+
         // Ensure URI starts with a leading slash
         $uri = rtrim($uri, '/');
         if ($uri === '') {

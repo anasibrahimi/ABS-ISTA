@@ -11,8 +11,8 @@
 
     <div id="content" class="container mx-30 flex justify-center  min-h-screen">
         <div class="w-full max-w-6xl">
-            <h1 class="text-2xl font-bold mb-6 text-center">Add Absences For GI201</h1>
-            <form action="/ABS-ISTA/absences/create" method="POST" class="bg-white p-6 rounded shadow-md">
+            <h1 class="text-2xl font-bold mb-6 text-center">Add Absences For : <?= $filiereName ?></h1>
+            <form action="/ABS-ISTA/absence/create" method="POST" class="bg-white p-6 rounded shadow-md">
                 <h2 class="text-xl font-semibold mb-4">Session Details</h2>
                 <div class="mb-4">
                     <label for="seanceDate" class="block text-sm font-medium">Date:</label>
@@ -31,7 +31,7 @@
                     <label for="ref" class="block text-sm font-medium">Module/Enseignant:</label>
                     <select id="ref" name="ref" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                         <?php foreach ($references as $reference): ?>
-                            <option value="<?= $reference['ref_id'] ?>"><?= $reference['module_name'] . "/" . $reference['first_name']." ". $reference['last_name'] ?></option>
+                            <option value="<?= $reference['ref_id'] ?>"><?= $reference['module_name'] . " / " . $reference['first_name']." ". $reference['last_name'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>

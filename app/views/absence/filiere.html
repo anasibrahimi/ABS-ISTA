@@ -13,7 +13,7 @@
             <h1 class="text-2xl font-bold mb-6 text-center">Select a Filiere</h1>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4" >
                 <?php foreach ($filieres as $filiere): ?>
-                    <a href="/ABS-ISTA/absence/addView?filiereName=<?= urlencode($filiere['filiere_name']) ?>" 
+                    <a href="/ABS-ISTA/absence/stagiaireView?filiereName=<?= urlencode($filiere['filiere_name']) ?>" 
                        class="block bg-blue-500 text-white text-center py-4 rounded shadow hover:bg-blue-600 no-underline">
                         <?= htmlspecialchars($filiere['filiere_name']) ?>
                     </a>

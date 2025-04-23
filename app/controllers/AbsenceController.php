@@ -7,8 +7,8 @@ class AbsenceController {
         $stagiaire = new Stagiaire();
         $stagiaires = $stagiaire->findByFiliereName($filiereName); // Fetch stagiaires based on filiereName
         $reference = new Reference();
-        $references = $reference->findAll(); // Fetch all references
-        require_once __DIR__ . '/../views/absence/add.html';
+        $references = $reference->findByFiliereName($filiereName); // Fetch all references
+        require_once __DIR__ . '/../views/absence/add.php';
         exit();
     }
     
@@ -17,6 +17,15 @@ class AbsenceController {
         $filiere = new Filiere();
         $filieres = $filiere->findAll(); // Fetch all filieres
         require_once __DIR__ . '/../views/absence/filiere.html';
+        exit();
+    }
+
+    // Method to redirect to the stagiaire view
+    public function stagiaireView() {
+        $filiereName = $_GET['filiereName'] ?? null; // Get filiereName from the query string
+        $stagiaire = new Stagiaire();
+        $stagiaires = $stagiaire->findByFiliereName($filiereName); // Fetch stagiaires based on filiereName
+        require_once __DIR__ . '/../views/absence/stagiaire.php';
         exit();
     }
 
@@ -49,7 +58,7 @@ class AbsenceController {
             }
         }
 
-        header('Location: /ABS-ISTA/absence/filiers');
+        header('Location: /ABS-ISTA/absence/filiereView');
         exit();
     }
 }

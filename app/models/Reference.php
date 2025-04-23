@@ -36,13 +36,29 @@ class Reference
         return $stmt->execute([$id]);
     }
 
-    public function findAll()
+    // public function findAll()
+    // {
+    //     $db = Database::getInstance()->getConnection();
+    //     $query = $db->query("SELECT * FROM reference r 
+    //     join module m on r.module_id = m.module_id 
+    //     join enseignant e on r.enseignant_id = e.enseignant_id");
+    //     return $query->fetchAll(PDO::FETCH_ASSOC);
+    // }
+
+    public function findByFiliereName($filiereName)
     {
         $db = Database::getInstance()->getConnection();
-        $query = $db->query("SELECT * FROM reference r 
-        join module m on r.module_id = m.module_id 
-        join enseignant e on r.enseignant_id = e.enseignant_id");
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $db->prepare("
+            SELECT *
+            FROM reference r
+            JOIN module m ON r.module_id = m.module_id
+            JOIN filiere f ON m.filiere_id = f.filiere_id
+            join enseignant e on r.enseignant_id = e.enseignant_id
+            WHERE f.filiere_name = :filiere_name
+        ");
+        $stmt->bindParam(':filiere_name', $filiereName, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function add()
