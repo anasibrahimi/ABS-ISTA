@@ -5,6 +5,14 @@ class Filiere
     private $filiere_id;
     private $filiere_name;
     private $secteur_id;
+    
+
+    public static function findAll()
+    {
+        $db = Database::getInstance()->getConnection();
+        $query = $db->query("SELECT * FROM filiere");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function getFiliereId()
     {
@@ -35,4 +43,6 @@ class Filiere
     {
         $this->secteur_id = $secteur_id;
     }
+
+    
 }

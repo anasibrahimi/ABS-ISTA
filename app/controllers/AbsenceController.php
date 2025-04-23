@@ -3,18 +3,31 @@
 class AbsenceController {
     // Method to render the view for adding an absence
     public function addView() {
-         $stagiare = new Stagiaire() ;
-        $stagiaires = $stagiare->findAll(); // Fetch all stagiaires
+        $filiereName = $_GET['filiereName'] ?? null; // Get filiereName from the query string
+        $stagiaire = new Stagiaire();
+        $stagiaires = $stagiaire->findByFiliereName($filiereName); // Fetch stagiaires based on filiereName
         $reference = new Reference();
         $references = $reference->findAll(); // Fetch all references
-        require_once __DIR__ . '/../views/absence/add.php';
+        require_once __DIR__ . '/../views/absence/add.html';
+        exit();
+    }
+    
+    // Method to redirect to the filiere selection view
+    public function filiereView() {
+        $filiere = new Filiere();
+        $filieres = $filiere->findAll(); // Fetch all filieres
+        require_once __DIR__ . '/../views/absence/filiere.html';
         exit();
     }
 
-   
     // the creation of multiple absences 
     //for a single session (Seance).
-    public function createAbsences($absencesData, $seanceDate, $seanceTime, $ref) {
+    public function createAbsences($postData) {
+        $absencesData = $postData['absences'] ?? [];
+        $seanceDate = $postData['seanceDate'] ?? null;
+        $seanceTime = $postData['seanceTime'] ?? null;
+        $ref = $postData['ref'] ?? null;
+
         // Create a new Seance
         $seance = new Seance();
         $seance->setSeanceDate($seanceDate);
@@ -36,7 +49,7 @@ class AbsenceController {
             }
         }
 
-        header('Location: /ABS-ISTA/absence/addView');
+        header('Location: /ABS-ISTA/absence/filiers');
         exit();
     }
 }

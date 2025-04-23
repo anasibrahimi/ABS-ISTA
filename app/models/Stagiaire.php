@@ -16,6 +16,29 @@ class Stagiaire
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function findByFiliereId($filiere_id)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT * FROM stagiaire WHERE filiere_id = :filiere_id");
+        $stmt->bindParam(':filiere_id', $filiere_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function findByFiliereName($filiere_name)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("
+            SELECT stagiaire.* 
+            FROM stagiaire 
+            INNER JOIN filiere ON stagiaire.filiere_id = filiere.filiere_id 
+            WHERE filiere.filiere_name = :filiere_name
+        ");
+        $stmt->bindParam(':filiere_name', $filiere_name, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getStagiaireId()
     {
         return $this->stagiaire_id;
