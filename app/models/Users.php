@@ -7,6 +7,8 @@ class Users
     private $password;
     private $role;
 
+    
+
     public  function create($data)
     {
         $db = Database::getInstance()->getConnection();
@@ -26,6 +28,24 @@ class Users
         $db = Database::getInstance()->getConnection();
         $query = $db->query("SELECT * FROM users");
         return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function findByUsername($username)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data) {
+            $user = new Users();
+            $user->setUserId($data['user_id']);
+            $user->setUsername($data['username']);
+            $user->setPassword($data['password']);
+            $user->setRole($data['role']);
+            return $user;
+        }
+        return null;
     }
 
     public  function update($id, $data)

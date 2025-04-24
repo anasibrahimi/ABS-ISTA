@@ -32,10 +32,11 @@ class Router {
             if (preg_match($pattern, $uri, $matches)) {
                 array_shift($matches); // Remove the full match
 
+             
                 // Handle POST request parameters
                 if ($method === 'POST') {
                     $params = $_POST;
-                    $matches[] = $params; // Pass POST data as the last argument
+                    $matches = array_merge($matches, array_values($params)); // Use array values to avoid named parameters
                 }
 
                 if (is_callable($action)) {

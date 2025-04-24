@@ -1,0 +1,119 @@
+<?php
+
+class DashboardModel {
+   
+
+    public function getStats(): array {
+        $db = Database::getInstance()->getConnection();
+
+        $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE role = ?");
+        $stmt->execute(['surveillant']);
+        $surv = (int)$stmt->fetchColumn();
+
+        return [
+            [
+                'title' => 'Total stagiaires',
+                'icon'  => 'bi-people-fill',
+                'color' => 'primary',
+                'value' => (int)$db->query("SELECT COUNT(*) FROM stagiaire")->fetchColumn()
+            ],
+            [
+                'title' => 'Total professeurs',
+                'icon'  => 'bi-person-badge-fill',
+                'color' => 'info',
+                'value' => (int)$db->query("SELECT COUNT(*) FROM enseignant")->fetchColumn()
+            ],
+            [
+                'title' => 'Surveillants',
+                'icon'  => 'bi-shield-lock-fill',
+                'color' => 'success',
+                'value' => $surv
+            ]
+        ];
+    }
+
+    public function getWeekData(): array {
+        $db = Database::getInstance()->getConnection();
+
+        $month = date('Y-m');
+        $sql = "
+          SELECT
+            WEEK(recorded_at,1)
+              - WEEK(DATE_SUB(recorded_at, INTERVAL DAYOFMONTH(recorded_at)-1 DAY),1)+1 AS semaine,
+            COUNT(*) AS total
+          FROM absences
+          WHERE DATE_FORMAT(recorded_at,'%Y-%m') = ?
+          GROUP BY semaine
+          ORDER BY semaine
+        ";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$month]);
+        $data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+        $labels = $values = [];
+        for ($w = 1; $w <= 4; $w++) {
+            $labels[]  = "Semaine $w";
+            $values[]  = $data[$w] ?? 0;
+        }
+        return [$labels, $values];
+    }
+
+    public function getTopAbsents(): array {
+        $db = Database::getInstance()->getConnection();
+
+        return $db->query("
+          SELECT s.stagiaire_id AS id,
+                 CONCAT(s.first_name,' ',s.last_name) AS nom,
+                 f.filiere_name AS classe,
+                 s.phone,
+                 COUNT(a.absence_id)*1.5 AS heures
+            FROM absences a
+            JOIN stagiaire s ON a.stagiaire_id=s.stagiaire_id
+            JOIN filiere f ON s.filiere_id=f.filiere_id
+           GROUP BY s.stagiaire_id
+           ORDER BY heures DESC
+           LIMIT 6
+        ")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getRecentAbsences(): array {
+        $db = Database::getInstance()->getConnection();
+
+        return $db->query("
+          SELECT a.recorded_at AS date,
+                 CONCAT(s.first_name,' ',s.last_name) AS nom,
+                 f.filiere_name AS filiere,
+                 CONCAT(se.seance_time,' - ',m.module_name) AS seance,
+                 a.status AS motif
+            FROM absences a
+            JOIN stagiaire s ON a.stagiaire_id=s.stagiaire_id
+            JOIN filiere f ON s.filiere_id=f.filiere_id
+            JOIN seance se ON a.seance_id=se.seance_id
+            JOIN reference r ON se.ref_id=r.ref_id
+            JOIN module m ON r.module_id=m.module_id
+           ORDER BY a.recorded_at DESC
+           LIMIT 5
+        ")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getTopPresents(): array {
+        $db = Database::getInstance()->getConnection();
+
+        return $db->query("
+          SELECT CONCAT(s.first_name,' ',s.last_name) AS nom,
+                 f.filiere_name AS filiere,
+                 ROUND(((SELECT COUNT(*) FROM seance)-COUNT(a.absence_id))/
+                       (SELECT COUNT(*) FROM seance)*100,0) AS taux_val,
+                 CONCAT(
+                   ROUND(((SELECT COUNT(*) FROM seance)-COUNT(a.absence_id))/
+                         (SELECT COUNT(*) FROM seance)*100,0),'%'
+                 ) AS taux
+            FROM stagiaire s
+            JOIN filiere f ON s.filiere_id=f.filiere_id
+            LEFT JOIN absences a ON s.stagiaire_id=a.stagiaire_id
+           GROUP BY s.stagiaire_id
+           ORDER BY taux_val DESC
+           LIMIT 6
+        ")->fetchAll(PDO::FETCH_ASSOC);
+    }
+}

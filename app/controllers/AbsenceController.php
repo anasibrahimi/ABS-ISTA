@@ -7,7 +7,7 @@ class AbsenceController {
         $stagiaire = new Stagiaire();
         $stagiaires = $stagiaire->findByFiliereName($filiereName); // Fetch stagiaires based on filiereName
         $reference = new Reference();
-        $references = $reference->findByFiliereName($filiereName); // Fetch all references
+        $references = $reference->findByFiliereName($filiereName); 
         require_once __DIR__ . '/../views/absence/add.php';
         exit();
     }
