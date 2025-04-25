@@ -21,8 +21,10 @@
         <p class="card-subtitle text-muted">Connexion au système</p>
       </div>
       <div class="card-body">
-        <?php if (!empty($error)): ?>
-          <div class="alert alert-danger"><?= htmlspecialchars(urldecode($_GET['error'])) ?></div>
+      <?php if (isset($_GET['error'])): ?>
+        <div class="alert alert-danger" role="alert">
+                <?php echo htmlspecialchars(urldecode($_GET['error'])); ?>
+            </div>
         <?php endif; ?>
         <form method="post" action="/ABS-ISTA/check">
           <div class="mb-3">

@@ -7,16 +7,14 @@ class Users
     private $password;
     private $role;
 
-    
-
-    public  function create($data)
+    public function create($user)
     {
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
-        return $stmt->execute([$data['username'], $data['password'], $data['role']]);
+        return $stmt->execute([$user->getUsername(), $user->getPassword(), $user->getRole()]);
     }
 
-    public  function read($id)
+    public function read($id)
     {
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT * FROM users WHERE user_id = ?");
@@ -48,26 +46,21 @@ class Users
         return null;
     }
 
-    public  function update($id, $data)
+    public function update($id, $data)
     {
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("UPDATE users SET username = ?, password = ?, role = ? WHERE user_id = ?");
         return $stmt->execute([$data['username'], $data['password'], $data['role'], $id]);
     }
 
-    public  function delete($id)
+    public function delete($id)
     {
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("DELETE FROM users WHERE user_id = ?");
         return $stmt->execute([$id]);
     }
 
-    public function add()
-    {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
-        return $stmt->execute([$this->username, $this->password, $this->role]);
-    }
+    
 
     public function getUserId()
     {

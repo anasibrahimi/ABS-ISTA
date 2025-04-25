@@ -5,10 +5,7 @@
   <meta charset="UTF-8">
   <title>Tableau de bord ISTA-ABS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="/ABS-ISTA/app/views/partials/style.css" rel="stylesheet">
-  <style>
+ <style>
     .card-custom { border-radius:1rem; box-shadow:0 0.75rem 1.5rem rgba(0,0,0,0.1); }
     .table-custom thead { background-color:#f1f3f5; }
     .section-title { font-weight:600; margin-bottom:1rem; }

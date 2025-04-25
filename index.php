@@ -18,6 +18,13 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/absence/stagiaireView', [AbsenceController::class, 'stagiaireView']);
     $router->post('/absence/create', [AbsenceController::class, 'createAbsences']);
 
+    $router->get('/seance', [SeanceController::class, 'seanceView']);
+
+    $router->get('/users', [AuthController::class, 'usersView']);
+    $router->get('/addUser', [AuthController::class, 'addUserView']);
+    $router->post('/createUser', [AuthController::class, 'createUser']);
+    $router->post('/deleteUser', [AuthController::class, 'deleteUser']);
+
     $router->get('/logout', [AuthController::class, 'logout']);
 
 }

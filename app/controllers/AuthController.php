@@ -3,15 +3,16 @@
 class AuthController {
 
     public function login($username, $password) {
-        // echo $username ;
-        // echo $password ;
+        
         $user = Users::findByUsername($username);
         if ($user && password_verify($password, $user->getPassword())) {
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
             $_SESSION['user_id'] = $user->getUserId();
-            header('Location: /ABS-ISTA/absence/filiereView');
+            $_SESSION['username'] = $user->getUsername();
+            $_SESSION['role'] = $user->getRole();
+            header('Location: /ABS-ISTA/dashboard');
             exit();
         } else {
             $this->redirectToLogin('Invalid credentials ');
@@ -47,25 +48,40 @@ class AuthController {
         exit();
     }
 
+    //get gestion users view 
+    public function usersView() {
+        $users = Users::findAll(); // Fetch all users
+        require_once __DIR__ . '/../views/auth/gestion-users.php';
+        exit();
+    }
+
     // Render the add user view
     public function addUserView() {
-        require_once __DIR__ . '/../views/user/add.php';
+        require_once __DIR__ . '/../views/auth/addUserForm.php';
         exit();
     }
 
     
-    public function createUser($username, $password, $role) {
-        if (Users::findByUsername($username)) {
+    public function createUser() {
+        if (Users::findByUsername($_POST['username'])) {
             echo "Error: Username already exists.";
             return;
         }
-
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $user = new Users(null, $username, $hashedPassword, $role);
+        $hashedPassword = password_hash($_POST['password'], PASSWORD_BCRYPT); // Fixed extra $
+        $user = new Users();
+        $user->setUsername($_POST['username']); // Fixed extra $
+        $user->setPassword($hashedPassword);
+        $user->setRole($_POST['role']); // Fixed extra $
         $user->create($user);
-        $this->redirectToLogin('User created successfully. Please log in.');
+        header('Location: /ABS-ISTA/users?message=' . urlencode('User created successfully.'));
+        exit();
     }
 
-     
+    public function deleteUser() {
+             $user = new Users ;
+            $user->delete($_POST['user_id']);
+            header('Location: /ABS-ISTA/users?message=' . urlencode('User deleted successfully.'));
+        exit();
+    }
 
 }

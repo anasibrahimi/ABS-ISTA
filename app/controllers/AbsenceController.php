@@ -16,7 +16,7 @@ class AbsenceController {
     public function filiereView() {
         $filiere = new Filiere();
         $filieres = $filiere->findAll(); // Fetch all filieres
-        require_once __DIR__ . '/../views/absence/filiere.html';
+        require_once __DIR__ . '/../views/absence/filiere.php';
         exit();
     }
 
