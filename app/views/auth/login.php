@@ -7,7 +7,7 @@
   <title>ISTA-ABS Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="login.css" rel="stylesheet">
+  <link href="/ABS-ISTA/app/views/auth/login.css" rel="stylesheet">
 </head>
 <body>
   <div class="container login-container">

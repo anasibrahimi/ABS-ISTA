@@ -5,7 +5,6 @@ class Reference
     private $module_id;
     private $filiere_id;
     private $enseignant_id;
-    private $annee_id;
 
     public static function create($data)
     {
@@ -64,8 +63,8 @@ class Reference
     public function add()
     {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("INSERT INTO reference (module_id, filiere_id, enseignant_id, annee_id) VALUES (?, ?, ?, ?)");
-        return $stmt->execute([$this->module_id, $this->filiere_id, $this->enseignant_id, $this->annee_id]);
+        $stmt = $db->prepare("INSERT INTO reference (module_id, filiere_id, enseignant_id) VALUES (?, ?, ?)");
+        return $stmt->execute([$this->module_id, $this->filiere_id, $this->enseignant_id]);
     }
 
     public function getRefId()
@@ -108,13 +107,5 @@ class Reference
         $this->enseignant_id = $enseignant_id;
     }
 
-    public function getAnneeId()
-    {
-        return $this->annee_id;
-    }
-
-    public function setAnneeId($annee_id)
-    {
-        $this->annee_id = $annee_id;
-    }
+   
 }

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
+  <link href="/ABS-ISTA/app/views/partials/style.css" rel="stylesheet">
   <style>
     .card-custom { border-radius:1rem; box-shadow:0 0.75rem 1.5rem rgba(0,0,0,0.1); }
     .table-custom thead { background-color:#f1f3f5; }
@@ -19,43 +19,10 @@
   <button class="mobile-toggle" id="toggleSidebar"><i class="bi bi-list"></i></button>
   <div class="container-fluid p-0">
     <div class="row g-0">
-      <div class="col-auto sidebar" id="sidebar">
-        <div class="d-flex align-items-center justify-content-center">
-          <img src="assert/logo.jpeg" alt="Logo" style="width:60px;height:60px;border-radius:50%;">
-        </div>
-        <div class="sidebar-header d-flex align-items-center justify-content-center">
-          <h1 class="h5 mb-0 fw-bold">ISTA-ABS</h1>
-        </div>
-        <div class="sidebar-content">
-          <ul class="sidebar-menu">
-            <li class="sidebar-menu-item"><a href="#" class="sidebar-menu-button"><i class="bi bi-speedometer2"></i> Tableau de bord</a></li>
-            <li class="sidebar-menu-item"><a href="classe.html" class="sidebar-menu-button"><i class="bi bi-building"></i> Classe</a></li>
-            <li class="sidebar-menu-item"><a href="gestion-des-competes.html" class="sidebar-menu-button"><i class="bi bi-person-lines-fill"></i> Gestion de compte</a></li>
-            <li class="sidebar-menu-item"><a href="gestion-de-siance.html" class="sidebar-menu-button"><i class="bi bi-calendar-check"></i> Gestion de seance</a></li>
-            <li class="sidebar-menu-item dropdown">
-              <a class="sidebar-menu-button dropdown-toggle" id="paramBtn" href="#" data-bs-toggle="dropdown"><i class="bi bi-gear"></i> Paramètres</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="parametres-anne.html"><i class="bi bi-calendar-week"></i> Année universitaire</a></li>
-                <li><a class="dropdown-item" href="parametres-stagaitres.html"><i class="bi bi-people"></i> Stagiaires</a></li>
-                <li><a class="dropdown-item" href="parametres-modules.html"><i class="bi bi-bookmarks"></i> Modules</a></li>
-                <li><a class="dropdown-item" href="parametres-secteures.html"><i class="bi bi-grid"></i> Secteurs</a></li>
-                <li><a class="dropdown-item" href="parametres-fillieres.html"><i class="bi bi-diagram-3"></i> Filières</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div class="sidebar-footer">
-          <div class="dropup">
-            <button class="btn btn-primary dropdown-toggle dropup-button" id="actionBtn" data-bs-toggle="dropdown">
-              <i class="bi bi-person-gear"></i> <?= htmlspecialchars($userName) ?>
-            </button>
-            <ul class="dropdown-menu action-dropdown">
-              <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person-circle"></i> Profile</a></li>
-              <li><a class="dropdown-item" href="index.php?action=logout"><i class="bi bi-box-arrow-right"></i> Log out</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
+     
+    <?php include __DIR__ . '/../partials/layout.html'; ?>
+
+
       <div class="col-12" id="content">
         <nav class="navbar navbar-expand navbar-light bg-white py-1" style="border-bottom:1px solid black;margin:10px;">
           <div class="container-fluid">
@@ -165,5 +132,6 @@
       }
     });
   </script>
+  
 </body>
 </html>

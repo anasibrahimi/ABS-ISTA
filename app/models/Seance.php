@@ -6,23 +6,17 @@ class Seance
     private $seance_date;
     private $seance_time;
     private $ref_id;
+    private $annee_id ;
 
     
     public function add()
     {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("INSERT INTO seance (seance_date, seance_time, ref_id) VALUES (?, ?, ?)");
-        if ($stmt->execute([$this->seance_date, $this->seance_time, $this->ref_id])) {
+        $stmt = $db->prepare("INSERT INTO seance (seance_date, seance_time, ref_id, annee_id) VALUES (?, ?, ?, ?)");
+        if ($stmt->execute([$this->seance_date, $this->seance_time, $this->ref_id, $this->annee_id])) {
             return $db->lastInsertId(); // Return the ID of the inserted record
         }
         return false; // Return false if the insertion fails
-    }
-
-    public static function create($data)
-    {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("INSERT INTO seance (seance_date, seance_time, ref_id) VALUES (?, ?, ?)");
-        return $stmt->execute([$data['seance_date'], $data['seance_time'], $data['ref_id']]);
     }
 
     public static function read($id)
@@ -69,8 +63,7 @@ class Seance
         return $this->seance_date;
     }
 
-    public function setSeanceDate($seance_date)
-    {
+    public function setSeanceDate($seance_date) {
         $this->seance_date = $seance_date;
     }
 
@@ -79,8 +72,7 @@ class Seance
         return $this->seance_time;
     }
 
-    public function setSeanceTime($seance_time)
-    {
+    public function setSeanceTime($seance_time) {
         $this->seance_time = $seance_time;
     }
 
@@ -89,9 +81,17 @@ class Seance
         return $this->ref_id;
     }
 
-    public function setRefId($ref_id)
-    {
+    public function setRefId($ref_id) {
         $this->ref_id = $ref_id;
+    }
+
+    public function getAnneeId()
+    {
+        return $this->annee_id;
+    }
+
+    public function setAnneeId($annee_id) {
+        $this->annee_id = $annee_id;
     }
 
    

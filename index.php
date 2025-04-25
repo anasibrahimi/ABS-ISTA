@@ -7,17 +7,18 @@ $router = new Router();
 
 // Middleware to protect routes
 if (!AuthController::isAuthenticated()) {
-    $router->get('/ABS-ISTA/login', [AuthController::class, 'redirectToLogin']); 
-    $router->post('/ABS-ISTA/check', [AuthController::class, 'login']); 
+    $router->get('/', [AuthController::class, 'redirectToLogin']); 
+    $router->get('/login', [AuthController::class, 'redirectToLogin']); 
+    $router->post('/check', [AuthController::class, 'login']); 
 }else{
     
-    $router->get('/ABS-ISTA/dashboard', [DashboardController::class, 'index']);
-    $router->get('/ABS-ISTA/absence/addView', [AbsenceController::class, 'addView']);
-    $router->get('/ABS-ISTA/absence/filiereView', [AbsenceController::class, 'filiereView']);
-    $router->get('/ABS-ISTA/absence/stagiaireView', [AbsenceController::class, 'stagiaireView']);
-    $router->post('/ABS-ISTA/absence/create', [AbsenceController::class, 'createAbsences']);
+    $router->get('/dashboard', [DashboardController::class, 'index']);
+    $router->get('/absence/addView', [AbsenceController::class, 'addView']);
+    $router->get('/absence/filiereView', [AbsenceController::class, 'filiereView']);
+    $router->get('/absence/stagiaireView', [AbsenceController::class, 'stagiaireView']);
+    $router->post('/absence/create', [AbsenceController::class, 'createAbsences']);
 
-    $router->get('/ABS-ISTA/logout', [AuthController::class, 'logout']);
+    $router->get('/logout', [AuthController::class, 'logout']);
 
 }
 

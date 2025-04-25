@@ -19,6 +19,10 @@ class Router {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 
+        $basePath = '/ABS-ISTA';
+        if (str_starts_with($uri, $basePath)) {
+            $uri = substr($uri, strlen($basePath));
+        }
         // Ensure URI starts with a leading slash
         $uri = rtrim($uri, '/');
         if ($uri === '') {
