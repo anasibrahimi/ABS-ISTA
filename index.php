@@ -18,7 +18,14 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/absence/stagiaireView', [AbsenceController::class, 'stagiaireView']);
     $router->post('/absence/create', [AbsenceController::class, 'createAbsences']);
 
+    // gestion seances
     $router->get('/seance', [SeanceController::class, 'seanceView']);
+
+    //gestion filieres
+    $router->get('/filiere', [FiliereController::class, 'filiereView']);
+    $router->get('/filiere/listFiliere', [FiliereController::class, 'listFilieres']);
+    $router->get('/modelCanva', [FiliereController::class, 'downloadModelCanva']);
+
 
     $router->get('/users', [AuthController::class, 'usersView']);
     $router->get('/addUser', [AuthController::class, 'addUserView']);

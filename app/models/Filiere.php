@@ -10,7 +10,7 @@ class Filiere
     public static function findAll()
     {
         $db = Database::getInstance()->getConnection();
-        $query = $db->query("SELECT * FROM filiere");
+        $query = $db->query("SELECT * FROM filiere f join secteur s on f.secteur_id = s.secteur_id");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 

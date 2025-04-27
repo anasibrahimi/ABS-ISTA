@@ -4,8 +4,7 @@
 class SeanceController{
 
     public function seanceView(){
-
-        require_once __DIR__ . '/../views/home/gestion-seance.php';
+        require_once __DIR__ . '/../views/seance/gestion-seance.php';
         exit();
     }
 
