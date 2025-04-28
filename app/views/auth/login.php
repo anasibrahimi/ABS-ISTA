@@ -23,9 +23,13 @@
       <div class="card-body">
       <?php if (isset($_GET['error'])): ?>
         <div class="alert alert-danger" role="alert">
-                <?php echo htmlspecialchars(urldecode($_GET['error'])); ?>
-            </div>
-        <?php endif; ?>
+          <?php echo htmlspecialchars(urldecode($_GET['error'])); ?>
+        </div>
+      <?php elseif (isset($_GET['blocked'])): ?>
+        <div class="alert alert-warning" role="alert">
+          <?php echo htmlspecialchars(urldecode($_GET['blocked'])); ?>
+        </div>
+      <?php endif; ?>
         <form method="post" action="/ABS-ISTA/check">
           <div class="mb-3">
             <label for="username" class="form-label">Nom d’utilisateur</label>

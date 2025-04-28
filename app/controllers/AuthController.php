@@ -3,20 +3,27 @@
 class AuthController {
 
     public function login($username, $password) {
-        
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $user = Users::findByUsername($username);
+
         if ($user && password_verify($password, $user->getPassword())) {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
             $_SESSION['user_id'] = $user->getUserId();
             $_SESSION['username'] = $user->getUsername();
             $_SESSION['role'] = $user->getRole();
-            header('Location: /ABS-ISTA/dashboard');
-            exit();
+            $_SESSION['blocked'] = $user->isBlocked();
+
+            if ($_SESSION['blocked'] == 0) {
+                header('Location: /ABS-ISTA/dashboard');
+            } else {
+                header('Location: /ABS-ISTA/blocked?blocked=' . urlencode('Votre compte est bloqué.'));
+            }
         } else {
-            $this->redirectToLogin('Invalid credentials ');
+            header('Location: /ABS-ISTA/login?error=' . urlencode('Nom d’utilisateur ou mot de passe invalide.'));
         }
+        exit();
     }
 
     public static function isAuthenticated() {
@@ -77,11 +84,43 @@ class AuthController {
         exit();
     }
 
-    public function deleteUser() {
-             $user = new Users ;
-            $user->delete($_POST['user_id']);
-            header('Location: /ABS-ISTA/users?message=' . urlencode('User deleted successfully.'));
+    // Bloquer un compte donné par son ID
+    public function blockAccount() {
+        $user = new Users ;
+        $user->blockAccount($_POST['user_id']);
+        header('Location: /ABS-ISTA/users?message=' . urlencode('User blocked successfully.'));
+        exit();    
+    }
+
+    public function toggleAccountStatus() {
+        $userId = $_POST['user_id'];
+        $blockedNum = $_POST['blockedNum'];
+        if ($blockedNum == 0) {
+            $user = new Users();
+            $newStatus = $user->changeStatustoOne($userId);
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            if ($_SESSION['user_id'] == $userId) {
+                $_SESSION['blocked'] = 1; // Update session if the current user is blocked
+            }
+            header('Location: /ABS-ISTA/users?message=' . urlencode('User blocked successfully.'));
+        } else {
+            $user = new Users();
+            $newStatus = $user->changeStatustoZero($userId);
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            if ($_SESSION['user_id'] == $userId) {
+                $_SESSION['blocked'] = 0; // Update session if the current user is unblocked
+            }
+            header('Location: /ABS-ISTA/users?message=' . urlencode('User unblocked successfully.'));
+        }
         exit();
+    }
+
+    public function redirectToBlockedPage() {
+       echo "Your are Blocked" ;
     }
 
 }

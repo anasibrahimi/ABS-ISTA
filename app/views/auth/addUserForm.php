@@ -6,6 +6,8 @@
     <title>Add Client</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
+<button class="mobile-toggle" id="toggleSidebar"><i class="bi bi-list"></i></button>
 <body class="bg-gray-100">
 
 <?php include __DIR__ . '/../partials/layout.html'; ?>

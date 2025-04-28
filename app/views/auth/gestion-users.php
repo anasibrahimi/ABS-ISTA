@@ -53,9 +53,12 @@
             <td><?= htmlspecialchars($user['username']) ?></td>
             <td><?= htmlspecialchars($user['role']) ?></td>
             <td>
-              <form method="POST" action="/ABS-ISTA/deleteUser" style="display:inline;">
+              <form method="POST" action="/ABS-ISTA/toggleAccountStatus" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment changer le statut de ce user ?');">
                 <input type="hidden" name="user_id" value="<?= htmlspecialchars($user['user_id']) ?>">
-                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                <input type="hidden" name="blockedNum" value="<?= htmlspecialchars($user['blocked']) ?>">
+                <button type="submit" class="btn btn-sm <?= $user['blocked'] ? 'btn-success' : 'btn-danger' ?>">
+                  <?= $user['blocked'] ? 'Unblock' : 'Block' ?>
+                </button>
               </form>
             </td>
           </tr>

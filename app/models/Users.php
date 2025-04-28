@@ -6,6 +6,7 @@ class Users
     private $username;
     private $password;
     private $role;
+    private $blocked;
 
     public function create($user)
     {
@@ -41,6 +42,7 @@ class Users
             $user->setUsername($data['username']);
             $user->setPassword($data['password']);
             $user->setRole($data['role']);
+            $user->blocked = $data['blocked'];
             return $user;
         }
         return null;
@@ -53,14 +55,32 @@ class Users
         return $stmt->execute([$data['username'], $data['password'], $data['role'], $id]);
     }
 
-    public function delete($id)
-    {
+    // Bloquer un compte par ID
+    public function blockAccount($id) {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("DELETE FROM users WHERE user_id = ?");
-        return $stmt->execute([$id]);
+        $stmt = $db->prepare("UPDATE accounts SET blocked = 1 WHERE id = ?");
+        $stmt->execute([$id]);
     }
 
-    
+    // Toggle the is_blocked status in the database
+    public function changeStatustoOne($id) {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("UPDATE users SET blocked = 1 WHERE user_id = ?");
+        $stmt->execute([$id]);
+
+        $stmt = $db->prepare("SELECT blocked FROM users WHERE user_id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetchColumn();
+    }
+    public function changeStatustoZero($id) {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("UPDATE users SET blocked = 0 WHERE user_id = ?");
+        $stmt->execute([$id]);
+
+        $stmt = $db->prepare("SELECT blocked FROM users WHERE user_id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetchColumn();
+    }
 
     public function getUserId()
     {
@@ -101,4 +121,10 @@ class Users
     {
         $this->role = $role;
     }
+    public function isBlocked()
+    {
+        return $this->blocked;
+    }
+
+    
 }

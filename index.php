@@ -10,8 +10,15 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/', [AuthController::class, 'redirectToLogin']); 
     $router->get('/login', [AuthController::class, 'redirectToLogin']); 
     $router->post('/check', [AuthController::class, 'login']); 
-}else{
-
+}
+ elseif (!empty($_SESSION['blocked']) && $_SESSION['blocked'] == 1) {
+    $router->get('/', [AuthController::class, 'redirectToLogin']); 
+    $router->get('/login', [AuthController::class, 'redirectToLogin']); 
+    $router->post('/check', [AuthController::class, 'login']); 
+    $router->get('/', [AuthController::class, 'redirectToLogin']);
+    $router->get('/blocked', [AuthController::class, 'redirectToLogin']);
+}
+ else {
     $router->get('/', [DashboardController::class, 'index']);
     $router->get('/dashboard', [DashboardController::class, 'index']);
     $router->get('/absence/addView', [AbsenceController::class, 'addView']);
@@ -32,12 +39,12 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/users', [AuthController::class, 'usersView']);
     $router->get('/addUser', [AuthController::class, 'addUserView']);
     $router->post('/createUser', [AuthController::class, 'createUser']);
-    $router->post('/deleteUser', [AuthController::class, 'deleteUser']);
+    $router->post('/blockAccount', [AuthController::class, 'blockAccount']);
+    $router->post('/toggleAccountStatus', [AuthController::class, 'toggleAccountStatus']);
 
     $router->get('/logout', [AuthController::class, 'logout']);
 
 }
-
 
 // Dispatch the request
 $router->dispatch();
