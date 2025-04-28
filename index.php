@@ -11,7 +11,8 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/login', [AuthController::class, 'redirectToLogin']); 
     $router->post('/check', [AuthController::class, 'login']); 
 }else{
-    
+
+    $router->get('/', [DashboardController::class, 'index']);
     $router->get('/dashboard', [DashboardController::class, 'index']);
     $router->get('/absence/addView', [AbsenceController::class, 'addView']);
     $router->get('/absence/filiereView', [AbsenceController::class, 'filiereView']);
@@ -24,9 +25,10 @@ if (!AuthController::isAuthenticated()) {
     //gestion filieres
     $router->get('/filiere', [FiliereController::class, 'filiereView']);
     $router->get('/filiere/listFiliere', [FiliereController::class, 'listFilieres']);
-    $router->get('/modelCanva', [FiliereController::class, 'downloadModelCanva']);
+    $router->get('/downloadModelCanva', [FiliereController::class, 'downloadModelCanva']);
+    $router->post('/importModelCanva', [FiliereController::class, 'importModelCanva']);
 
-
+    // gestion comptes
     $router->get('/users', [AuthController::class, 'usersView']);
     $router->get('/addUser', [AuthController::class, 'addUserView']);
     $router->post('/createUser', [AuthController::class, 'createUser']);

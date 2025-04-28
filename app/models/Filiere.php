@@ -44,5 +44,17 @@ class Filiere
         $this->secteur_id = $secteur_id;
     }
 
-    
+    public function insert($data) {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("INSERT INTO filiere (filiere_name, secteur_id) VALUES (?, ?)");
+        return $stmt->execute([$data['filiere_name'], $data['secteur_id']]);
+    }
+
+    public function bulkInsert($rows) {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("INSERT INTO filiere (filiere_name, secteur_id) VALUES (?, ?)");
+        foreach ($rows as $row) {
+            $stmt->execute([$row['filiere_name'], $row['secteur_id']]);
+        }
+    }
 }

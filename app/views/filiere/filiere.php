@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Télécharger un modèle Excel (canva-model.xlsx)
     downloadBtn.addEventListener('click', () => {
-        window.location.href = '/ABS-ISTA/modelCanva';
+        window.location.href = '/ABS-ISTA/downloadModelCanva';
     });
 
     // 6. Importer un fichier Excel
@@ -142,9 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!file) return;
 
         const formData = new FormData();
-        formData.append('canvasModel', file);
+        formData.append('excelFile', file); // Corrected key to match server-side expectation
 
-        fetch('../public/api/import-canvas.php', {
+        fetch('/ABS-ISTA/importModelCanva', {
             method: 'POST',
             body: formData
         })
