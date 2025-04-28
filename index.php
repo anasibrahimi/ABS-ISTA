@@ -24,6 +24,7 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/absence/addView', [AbsenceController::class, 'addView']);
     $router->get('/absence/filiereView', [AbsenceController::class, 'filiereView']);
     $router->get('/absence/stagiaireView', [AbsenceController::class, 'stagiaireView']);
+    $router->get('/absence/stagiare/details', [AbsenceController::class, 'detailsView']);
     $router->post('/absence/create', [AbsenceController::class, 'createAbsences']);
 
     // gestion seances
@@ -45,6 +46,5 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/logout', [AuthController::class, 'logout']);
 
 }
-
 // Dispatch the request
 $router->dispatch();

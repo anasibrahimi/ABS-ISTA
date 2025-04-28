@@ -65,4 +65,22 @@ class AbsenceController {
          header('Location: /ABS-ISTA/absence/filiereView');
         exit();
     }
+
+    // Method to redirect to the details view
+    public function detailsView() {
+        $stagiaireId = $_GET['stagiaire_id'] ?? null; // Extract stagiaire_id from the URL
+        if (!$stagiaireId) {
+            header('Location: /ABS-ISTA/absence/stagiaireView');
+            exit();
+        }
+
+        $stagiaire = new Stagiaire();
+        $stagiaireDetails = $stagiaire->findById($stagiaireId); // Fetch stagiaire details
+
+        $absence = new Absences();
+        $absences = $absence->findByStagiaireId($stagiaireId); // Fetch absences for the stagiaire
+
+        require_once __DIR__ . '/../views/absence/details.php';
+        exit();
+    }
 }

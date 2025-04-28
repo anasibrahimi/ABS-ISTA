@@ -53,6 +53,23 @@ class Absences
         return $stmt->execute([$this->stagiaire_id, $this->seance_id, $this->user_id, $this->status, $this->recorded_at]);
     }
 
+    public static function findByStagiaireId($stagiaire_id)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("
+            SELECT a.*, s.seance_time, s.seance_date, m.module_name 
+            FROM absences a
+            JOIN seance s ON a.seance_id = s.seance_id
+            JOIN reference r ON s.ref_id = r.ref_id
+            JOIN module m ON r.module_id = m.module_id
+            WHERE a.stagiaire_id = :stagiaire_id
+            ORDER BY a.recorded_at DESC
+        ");
+        $stmt->bindParam(':stagiaire_id', $stagiaire_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getAbsenceId()
     {
         return $this->absence_id;

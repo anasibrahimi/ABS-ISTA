@@ -39,6 +39,15 @@ class Stagiaire
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function findById($stagiaire_id)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT * FROM stagiaire WHERE stagiaire_id = :stagiaire_id");
+        $stmt->bindParam(':stagiaire_id', $stagiaire_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function getStagiaireId()
     {
         return $this->stagiaire_id;

@@ -26,7 +26,6 @@
             </div>
         </form>
 
-        <form action="-" method="get">
             <!-- Table -->
             <div class="bg-white shadow-md rounded overflow-hidden">
                 <table class="min-w-full table-auto">
@@ -44,9 +43,10 @@
                                     <td class="px-4 py-2"><?= htmlspecialchars($stagiaire['first_name']) ?></td>
                                     <td class="px-4 py-2"><?= htmlspecialchars($stagiaire['last_name']) ?></td>
                                     <td class="px-4 py-2">
-                                        <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
+                                        <a href="/ABS-ISTA/absence/stagiare/details?stagiaire_id=<?= urlencode($stagiaire['stagiaire_id']) ?>" 
+                                            class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
                                             More
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -58,7 +58,6 @@
                     </tbody>
                 </table>
             </div>
-        </form>
     </div>
 </body>
 </html>
