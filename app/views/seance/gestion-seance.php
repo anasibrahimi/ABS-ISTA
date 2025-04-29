@@ -21,7 +21,7 @@
                 </div>
             </nav>
             <main class="main-content p-2">
-                <h2 class="mb-4" style="color: blue"><i class="bi bi-calendar-check"></i> Gestion de siances</h2>
+                <h2 class="mb-4" style="color: blue"><i class="bi bi-calendar-check"></i> Gestion des Séances</h2>
 
                 <!-- Barre de filtrage -->
                 <form class="row g-3 align-items-end mb-4">
@@ -74,51 +74,40 @@
                         <tr>
                             <th>ID</th>
                             <th>Acteur</th>
-                            <th>siance</th>
+                            <th>Seance</th>
                             <th>Date</th>
                             <th>Action</th>
                         </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>Hamza HAMOUT</td>
-                            <td>S1</td>
-                            <td>12/10/2021</td>
-                            <td>
-                                <div>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#gestion-trash">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                    <button class="btn btn-primary">
-                                       <a href="gestion-de-siance-plus-information.html">  <i class="bi bi-plus text-white"></i></a>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
                         </thead>
+                        <tbody>
+                        <?php foreach ($seances as $seance): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($seance['seance_id']) ?></td>
+                                <td><?= htmlspecialchars($seance['enseignant_first_name'])." ".htmlspecialchars($seance['enseignant_last_name']) ?></td>
+                                <td><?= htmlspecialchars($seance['seance_time']) ?></td>
+                                <td><?= htmlspecialchars($seance['seance_date']) ?></td>
+                                <td>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="/ABS-ISTA/seance/delete?seance_id=<?= urlencode($seance['seance_id']) ?>" 
+                                           class="btn btn-danger" 
+                                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette séance ?');">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                        <a href="/ABS-ISTA/seance/details?seance_id=<?= urlencode($seance['seance_id']) ?>" 
+                                           class="btn btn-primary text-white">
+                                            <i class="bi bi-plus"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
                     </table>
                 </div>
             </main>
         </div>
     </div>
 </div>
-<div class="modal fade" id="gestion-trash" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Êtes-vous sûr ?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                L'historique de cette séance sera supprimé !!!            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary">Enregistrer</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../script.js"></script>
 </body>
 </html>

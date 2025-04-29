@@ -84,13 +84,6 @@ class AuthController {
         exit();
     }
 
-    // Bloquer un compte donné par son ID
-    public function blockAccount() {
-        $user = new Users ;
-        $user->blockAccount($_POST['user_id']);
-        header('Location: /ABS-ISTA/users?message=' . urlencode('User blocked successfully.'));
-        exit();    
-    }
 
     public function toggleAccountStatus() {
         $userId = $_POST['user_id'];
@@ -117,10 +110,6 @@ class AuthController {
             header('Location: /ABS-ISTA/users?message=' . urlencode('User unblocked successfully.'));
         }
         exit();
-    }
-
-    public function redirectToBlockedPage() {
-       echo "Your are Blocked" ;
     }
 
 }

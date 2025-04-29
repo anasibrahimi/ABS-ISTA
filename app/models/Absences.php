@@ -70,6 +70,19 @@ class Absences
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getBySeanceId($seanceId)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("
+            SELECT a.status, st.first_name, st.last_name, st.stagiaire_id 
+            FROM absences a
+            JOIN stagiaire st ON a.stagiaire_id = st.stagiaire_id
+            WHERE a.seance_id = ?
+        ");
+        $stmt->execute([$seanceId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getAbsenceId()
     {
         return $this->absence_id;

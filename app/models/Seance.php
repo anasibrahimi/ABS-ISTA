@@ -37,16 +37,49 @@ class Seance
     public static function delete($id)
     {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("DELETE FROM seance WHERE seance_id = ?");
-        return $stmt->execute([$id]);
+    
+        // Delete absences related to the seance
+        $stmtAbsence = $db->prepare("DELETE FROM absences WHERE seance_id = ?");
+        $stmtAbsence->execute([$id]);
+    
+        // Delete the seance
+        $stmtSeance = $db->prepare("DELETE FROM seance WHERE seance_id = ?");
+        return $stmtSeance->execute([$id]);
     }
 
     public static function findAll()
     {
         $db = Database::getInstance()->getConnection();
-        $query = $db->query("SELECT * FROM seances");
+        $query = $db->query("SELECT * FROM seance");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function findById($id)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT s.seance_date, e.first_name AS enseignant_first_name,
+                                 e.last_name AS enseignant_last_name, 
+                                 m.module_name, f.filiere_name 
+                              FROM seance s
+                              JOIN reference r ON r.ref_id = s.ref_id 
+                              JOIN module m ON m.module_id = r.module_id
+                              JOIN filiere f ON f.filiere_id = m.filiere_id
+                              JOIN enseignant e ON e.enseignant_id = r.enseignant_id  
+                              WHERE s.seance_id = ?"); 
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+   
+    public  function findEnseignant() {
+    $db = Database::getInstance()->getConnection();
+    $query = $db->query("SELECT s.*, e.first_name AS enseignant_first_name,
+                                 e.last_name AS enseignant_last_name
+                              FROM seance s
+                              JOIN reference r ON r.ref_id = s.ref_id 
+                              JOIN enseignant e ON e.enseignant_id = r.enseignant_id");
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
+
 
     public function getSeanceId()
     {

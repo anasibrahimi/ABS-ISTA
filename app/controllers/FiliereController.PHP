@@ -16,7 +16,7 @@ class FiliereController {
 
     // method for download model canva
     public function downloadModelCanva() {
-        $filePath = __DIR__ . '/../../app/resources/filiere-canva.xlsx'; // Adjust the file name and extension as needed
+        $filePath = __DIR__ . '/../../app/resources/canvas/filiere-canva.xlsx'; // Adjust the file name and extension as needed
         if (file_exists($filePath)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');

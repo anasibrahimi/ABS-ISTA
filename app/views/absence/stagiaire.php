@@ -43,8 +43,8 @@
                                     <td class="px-4 py-2"><?= htmlspecialchars($stagiaire['first_name']) ?></td>
                                     <td class="px-4 py-2"><?= htmlspecialchars($stagiaire['last_name']) ?></td>
                                     <td class="px-4 py-2">
-                                        <a href="/ABS-ISTA/absence/stagiare/details?stagiaire_id=<?= urlencode($stagiaire['stagiaire_id']) ?>" 
-                                            class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
+                                         <a href="/ABS-ISTA/absence/stagiare/details?stagiaire_id=<?= urlencode($stagiaire['stagiaire_id']) ?>" 
+                                            class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 no-underline">
                                             More
                                         </a>
                                     </td>

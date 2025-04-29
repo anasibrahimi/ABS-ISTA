@@ -29,6 +29,15 @@ if (!AuthController::isAuthenticated()) {
 
     // gestion seances
     $router->get('/seance', [SeanceController::class, 'seanceView']);
+    $router->get('/seance/delete', [SeanceController::class, 'deleteSeance']);
+    $router->get('/seance/details', [SeanceController::class, 'detailsView']);
+
+    // Gestion Stagiaires
+    $router->get('/stagiaire', [StagiaireController::class, 'stagiaireView']);
+    $router->get('/stagiaire/listStagiaires', [StagiaireController::class, 'listStagiaires']);
+    $router->get('/stagiaire/downloadModelCanva', [StagiaireController::class, 'downloadModelCanva']);
+    $router->post('/stagiaire/importModelCanva', [StagiaireController::class, 'importModelCanva']);
+
 
     //gestion filieres
     $router->get('/filiere', [FiliereController::class, 'filiereView']);
