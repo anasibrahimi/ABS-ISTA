@@ -30,9 +30,9 @@
                 </div>
                 <div class="mb-4">
                     <label for="ref" class="block text-sm font-medium">Module/Enseignant:</label>
-                    <select id="ref" name="ref" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                        <?php foreach ($references as $reference): ?>
-                            <option value="<?= $reference['ref_id'] ?>"><?= $reference['module_name'] . " / " . $reference['first_name']." ". $reference['last_name'] ?></option>
+                    <select id="module_id" name="module_id" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        <?php foreach ($modules as $module): ?>
+                            <option value="<?= $module['module_id'] ?>"><?= $module['module_name'] . " / " . $module['first_name']." ". $module['last_name'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>

@@ -60,8 +60,7 @@ class Absences
             SELECT a.*, s.seance_time, s.seance_date, m.module_name 
             FROM absences a
             JOIN seance s ON a.seance_id = s.seance_id
-            JOIN reference r ON s.ref_id = r.ref_id
-            JOIN module m ON r.module_id = m.module_id
+            JOIN module m ON s.module_id = m.module_id
             WHERE a.stagiaire_id = :stagiaire_id
             ORDER BY a.recorded_at DESC
         ");

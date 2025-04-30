@@ -8,6 +8,14 @@ class Enseignant
     private $email;
     private $phone;
 
+    public static function findByEnseignantLastName( $last_name)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT enseignant_id FROM enseignant WHERE last_name = ?");
+        $stmt->execute([ $last_name]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function getEnseignantId()
     {
         return $this->enseignant_id;

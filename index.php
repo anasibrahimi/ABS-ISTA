@@ -38,12 +38,23 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/stagiaire/downloadModelCanva', [StagiaireController::class, 'downloadModelCanva']);
     $router->post('/stagiaire/importModelCanva', [StagiaireController::class, 'importModelCanva']);
 
+    // Gestion Module
+    $router->get('/module', [ModuleController::class, 'moduleView']);
+    $router->get('/module/listModules', [ModuleController::class, 'listModules']);
+    $router->get('/module/downloadModelCanva', [ModuleController::class, 'downloadModelCanva']);
+    $router->post('/module/importModelCanva', [ModuleController::class, 'importModelCanva']);
 
     //gestion filieres
     $router->get('/filiere', [FiliereController::class, 'filiereView']);
     $router->get('/filiere/listFiliere', [FiliereController::class, 'listFilieres']);
     $router->get('/downloadModelCanva', [FiliereController::class, 'downloadModelCanva']);
     $router->post('/importModelCanva', [FiliereController::class, 'importModelCanva']);
+
+    // Gestion Secteur
+    $router->get('/secteur', [SecteurController::class, 'secteurView']);
+    $router->get('/secteur/listSecteurs', [SecteurController::class, 'listSecteurs']);
+    $router->get('/secteur/downloadModelCanva', [SecteurController::class, 'downloadModelCanva']);
+    $router->post('/secteur/importModelCanva', [SecteurController::class, 'importModelCanva']);
 
     // gestion comptes
     $router->get('/users', [AuthController::class, 'usersView']);

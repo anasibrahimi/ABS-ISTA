@@ -14,6 +14,22 @@ class Filiere
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function findByFiliereName($filiere_name)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT filiere_id FROM filiere WHERE filiere_name = ?");
+        $stmt->execute([$filiere_name]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function bulkInsert($rows) {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("INSERT INTO filiere (filiere_name, secteur_id) VALUES (?, ?)");
+        foreach ($rows as $row) {
+            $stmt->execute([$row['filiere_name'], $row['secteur_id']]);
+        }
+    }
+
     public function getFiliereId()
     {
         return $this->filiere_id;
@@ -44,11 +60,5 @@ class Filiere
         $this->secteur_id = $secteur_id;
     }
 
-    public function bulkInsert($rows) {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("INSERT INTO filiere (filiere_name, secteur_id) VALUES (?, ?)");
-        foreach ($rows as $row) {
-            $stmt->execute([$row['filiere_name'], $row['secteur_id']]);
-        }
-    }
+    
 }

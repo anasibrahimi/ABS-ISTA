@@ -1,23 +1,23 @@
 <?php
 
-class StagiaireController {
+class ModuleController {
 
-    // 1. Retourner tous les stagiaires en JSON
-    public function listStagiaires() {
-        $stagiaire = new Stagiaire();
+    // 1. Retourner tous les modules en JSON
+    public function listModules() {
+        $module = new Module();
         header('Content-Type: application/json');
-        echo json_encode($stagiaire->findAll());
+        echo json_encode($module->findAll());
     }
 
-    // 2. Charger la vue de gestion des stagiaires
-    public function stagiaireView() {
-        require_once __DIR__ . '/../views/stagiaire/stagiaire.php';
+    // 2. Charger la vue de gestion des modules
+    public function moduleView() {
+        require_once __DIR__ . '/../views/module/module.php';
         exit();
     }
 
-    // 3. Télécharger un modèle Excel pour les stagiaires
+    // 3. Télécharger un modèle Excel pour les modules
     public function downloadModelCanva() {
-        $filePath = __DIR__ . '/../resources/canvas/stagiaire-canva.xlsx'; // Attention ici ! corriger le chemin
+        $filePath = __DIR__ . '/../resources/canvas/module-canva.xlsx'; 
 
         if (file_exists($filePath)) {
             // Configuration des headers HTTP pour télécharger
@@ -33,11 +33,11 @@ class StagiaireController {
             exit();
         } else {
             http_response_code(404);
-            echo json_encode(["error" => "Fichier modèle non trouvé."]);
+            echo json_encode(["error" => "Fichier modele non trouve."]);
         }
     }
 
-    // 4. Importer un fichier Excel pour insérer des stagiaires
+    // 4. Importer un fichier Excel pour insérer des modules
     public function importModelCanva() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excelFile']) && $_FILES['excelFile']['error'] === UPLOAD_ERR_OK) {
             
@@ -50,34 +50,36 @@ class StagiaireController {
 
             if (move_uploaded_file($_FILES['excelFile']['tmp_name'], $filePath)) {
 
-                require_once __DIR__ . '/../../vendor/autoload.php'; // Assurez-vous que PhpSpreadsheet est bien installé
+                require_once __DIR__ . '/../../vendor/autoload.php';
                 $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filePath);
                 $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
-                $stagiaire = new Stagiaire();
+                $module = new Module();
                 $rows = [];
 
                 foreach ($sheetData as $index => $row) {
                     if ($index === 1) continue; // Ignorer la première ligne (header)
 
-                      // Get filiere_id from filiere_name using the model method
-                      $result = Filiere::findByFiliereName($row['E']);
+                    // Get filiere_id from filiere_name using the model method
+                    $filiereResult = Filiere::findByFiliereName($row['B']);
                     
-                      if (!$result) {
-                          continue; // Skip if filiere not found
-                      }
+                    // Get enseignant_id from first_name and last_name
+                    $enseignantResult = Enseignant::findByEnseignantLastName($row['C']);
+                    
+                    if (!$filiereResult || !$enseignantResult) {
+                        continue; // Skip if filiere or enseignant not found
+                    }
 
                     $rows[] = [
-                        'first_name' => $row['A'] ?? '',
-                        'last_name' => $row['B'] ?? '',
-                        'email' => $row['C'] ?? '',
-                        'phone' => $row['D'] ?? '',
-                        'filiere_id' => $result['filiere_id']            
-                     ];
+                        'module_name' => $row['A'] ?? '',
+                        'filiere_id' => $filiereResult['filiere_id'],
+                        'enseignant_id' => $enseignantResult['enseignant_id']
+                    ];
                 }
+
                 if (!empty($rows)) {
-                    $stagiaire->bulkInsert($rows);
-                    echo json_encode(["message" => "Les stagiaires ont été importés avec succès."]);
+                    $module->bulkInsert($rows);
+                    echo json_encode(["message" => "Les modules ont été importés avec succès."]);
                 } else {
                     echo json_encode(["error" => "Le fichier Excel est vide ou incorrect."]);
                 }

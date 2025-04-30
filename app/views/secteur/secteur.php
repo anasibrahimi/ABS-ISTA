@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des Stagiaires</title>
+    <title>Gestion des Secteurs</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -27,7 +27,7 @@
       </nav>
 
       <main class="main-content p-2">
-        <h1 class="mb-4"><i class="bi bi-people"></i> Gestion des stagiaires</h1>
+        <h1 class="mb-4"><i class="bi bi-diagram-3"></i> Gestion des secteurs</h1>
 
         <!-- Boutons Import/Export -->
         <div class="mb-3">
@@ -44,24 +44,20 @@
 
         <!-- Champ de recherche -->
         <div class="mb-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par nom complet...">
+            <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par nom...">
         </div>
 
-        <!-- Tableau des stagiaires -->
+        <!-- Tableau des secteurs -->
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>stagiaire_id</th>
-                    <th>Prenom</th>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Numero de telephone</th>
-                    <th>Filiere</th>
+                    <th>secteur_id</th>
+                    <th>Secteur</th>
                 </tr>
             </thead>
-            <tbody id="stagiairesTableBody">
+            <tbody id="secteursTableBody">
                 <!-- Contenu dynamique injecté -->
-            </tbody>
+            </tbody >
         </table>
       </main>
 
@@ -73,59 +69,48 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-// Gestion JS des stagiaires
 document.addEventListener('DOMContentLoaded', () => {
-    let stagiaires = [];
-    const tableBody = document.getElementById('stagiairesTableBody');
+    let secteurs = [];
+    const tableBody = document.getElementById('secteursTableBody');
     const searchInput = document.getElementById('searchInput');
     const importBtn = document.getElementById('importCanvasBtn');
     const downloadBtn = document.getElementById('downloadCanvasBtn');
 
-    // Charger les stagiaires
-    function fetchStagiaires() {
-        fetch('/ABS-ISTA/stagiaire/listStagiaires')
+    // Charger les secteurs
+    function fetchSecteurs() {
+        fetch('/ABS-ISTA/secteur/listSecteurs')
             .then(response => response.json())
             .then(data => {
-                stagiaires = data;
-                renderStagiaires(stagiaires);
+                secteurs = data;
+                renderSecteurs(secteurs);
             });
     }
 
-    // Afficher les stagiaires dans le tableau
-    function renderStagiaires(list) {
+    // Afficher les secteurs dans le tableau
+    function renderSecteurs(list) {
         tableBody.innerHTML = '';
-        list.forEach(stagiaire => {
+        list.forEach(secteur => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${stagiaire.stagiaire_id}</td>
-                <td>${stagiaire.first_name}</td>
-                <td>${stagiaire.last_name}</td>
-                <td>${stagiaire.email}</td>
-                <td>${stagiaire.phone}</td>
-                <td>${stagiaire.filiere_name}</td>
+                <td>${secteur.secteur_id}</td>
+                <td>${secteur.secteur_name}</td>
             `;
             tableBody.appendChild(tr);
         });
     }
 
-    // Voir détails stagiaire
-    window.viewDetails = function(id) {
-        alert('Afficher les détails du stagiaire ID: ' + id);
-        // tu peux aussi faire ici : ouvrir une modale ou rediriger
-    };
-
     // Recherche
     searchInput.addEventListener('input', () => {
         const keyword = searchInput.value.toLowerCase();
-        const filtered = stagiaires.filter(s =>
-            s.nom_complet.toLowerCase().includes(keyword)
+        const filtered = secteurs.filter(s =>
+            s.secteur_name.toLowerCase().includes(keyword)
         );
-        renderStagiaires(filtered);
+        renderSecteurs(filtered);
     });
 
     // Télécharger modèle Excel
     downloadBtn.addEventListener('click', () => {
-        window.location.href = '/ABS-ISTA/stagiaire/downloadModelCanva';
+        window.location.href = '/ABS-ISTA/secteur/downloadModelCanva';
     });
 
     // Importer fichier Excel
@@ -140,14 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData();
         formData.append('excelFile', file);
 
-        fetch('/ABS-ISTA/stagiaire/importModelCanva', {
+        fetch('/ABS-ISTA/secteur/importModelCanva', {
             method: 'POST',
             body: formData
         })
         .then(response => response.json())
         .then(data => {
             alert(data.message || 'Importation réussie.');
-            fetchStagiaires();
+            fetchSecteurs();
         })
         .catch(err => {
             console.error(err);
@@ -155,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    fetchStagiaires(); // Charger automatiquement
+    fetchSecteurs(); // Initialiser l'affichage
 });
 </script>
 

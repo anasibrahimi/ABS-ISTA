@@ -12,7 +12,7 @@ class Stagiaire
     public static function findAll()
     {
         $db = Database::getInstance()->getConnection();
-        $query = $db->query("SELECT * FROM stagiaire");
+        $query = $db->query("SELECT * FROM stagiaire s join filiere f on s.filiere_id = f.filiere_id");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -50,9 +50,9 @@ class Stagiaire
     
     public function bulkInsert($rows) {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("INSERT INTO stagiaire (stagiaire_id, first_name) VALUES (?, ?)");
+        $stmt = $db->prepare("INSERT INTO stagiaire ( first_name, last_name, email, phone , filiere_id) VALUES (?, ?, ?, ?, ?)");
         foreach ($rows as $row) {
-            $stmt->execute([$row['stagiaire_id'], $row['first_name']]);
+            $stmt->execute([ $row['first_name'], $row['last_name'], $row['email'], $row['phone'], $row['filiere_id']]);
         }
     }
 

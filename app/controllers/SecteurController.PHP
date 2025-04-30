@@ -1,22 +1,24 @@
 <?php
 
-class FiliereController {
+class SecteurController {
 
-    // Retourner toutes les filières (JSON)
-    public function listFilieres() {
-        $filieres = new Filiere();
+    // Retourner tous les secteurs (JSON)
+    public function listSecteurs() {
+        $secteurs = new Secteur();  // modèle Secteur
         header('Content-Type: application/json');
-        echo json_encode($filieres->findAll());
+        echo json_encode($secteurs->findAll());
     }
 
-    public function filiereView() {
-        require_once __DIR__ . '/../views/filiere/filiere.php';
+    // Afficher la vue HTML
+    public function secteurView() {
+        require_once __DIR__ . '/../views/secteur/secteur.php';
         exit();
     }
 
-    // method for download model canva
+    // Télécharger le modèle Excel de secteur
     public function downloadModelCanva() {
-        $filePath = __DIR__ . '/../../app/resources/canvas/filiere-canva.xlsx'; // Adjust the file name and extension as needed
+        $filePath = __DIR__ . '/../../app/resources/canvas/secteur-canva.xlsx';
+
         if (file_exists($filePath)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
@@ -33,7 +35,7 @@ class FiliereController {
         }
     }
 
-    // method for import excel file
+    // Importer un fichier Excel
     public function importModelCanva() {
         if ($_FILES['excelFile']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = __DIR__ . '/../resources/uploads/';
@@ -44,35 +46,23 @@ class FiliereController {
             }
 
             if (move_uploaded_file($_FILES['excelFile']['tmp_name'], $filePath)) {
-                require_once __DIR__ . '/../../vendor/autoload.php';
+                require_once __DIR__ . '/../../vendor/autoload.php'; // PhpSpreadsheet installé via Composer
                 $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filePath);
                 $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
-                $filiere = new Filiere();
+                $secteur = new Secteur();
                 $rows = [];
-                
+
                 foreach ($sheetData as $index => $row) {
-                    if ($index === 1) continue; // Skip header row
-                    
-                    // Get secteur_id from secteur_name using the model method
-                    $result = Secteur::findBySecteurName($row['B']);
-                    
-                    if (!$result) {
-                        continue; // Skip if secteur not found
-                    }
-                    
+                    if ($index === 1) continue; // Ignorer l'entête
                     $rows[] = [
-                        'filiere_name' => $row['A'],
-                        'secteur_id' => $result['secteur_id']
+                        'secteur_name' => $row['A']   // colonne B
                     ];
                 }
+                
 
-                if (!empty($rows)) {
-                    $filiere->bulkInsert($rows);
-                    echo json_encode(["message" => "Data imported successfully."]);
-                } else {
-                    echo json_encode(["error" => "No valid data found to import."]);
-                }
+                $secteur->bulkInsert($rows);
+                echo json_encode(["message" => "Data imported successfully."]);
             } else {
                 http_response_code(500);
                 echo json_encode(["error" => "Failed to upload file."]);

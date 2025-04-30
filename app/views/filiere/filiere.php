@@ -48,10 +48,9 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Titre</th>
+                        <th>filiere_id</th>
+                        <th>Filiere</th>
                         <th>Secteur</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="filieresTableBody">
@@ -94,11 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${filiere.filiere_id}</td>
                 <td>${filiere.filiere_name}</td>
                 <td>${filiere.secteur_name}</td>
-                <td>
-                    <button class="btn btn-danger btn-sm" onclick="blockFiliere(${filiere.id})">
-                        <i class="bi bi-ban"></i> Bloquer
-                    </button>
-                </td>
             `;
             tableBody.appendChild(tr);
         });

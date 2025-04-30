@@ -9,7 +9,7 @@ class Database
     private function __construct()
     {
         $host = 'localhost';
-        $dbName = 'ista-abs';
+        $dbName = 'ista-abs-v2';
         $username = 'root';
         $password = '';
 

@@ -73,7 +73,7 @@
                         <thead class="table-light">
                         <tr>
                             <th>ID</th>
-                            <th>Acteur</th>
+                            <th>Professeur</th>
                             <th>Seance</th>
                             <th>Date</th>
                             <th>Action</th>

@@ -40,7 +40,7 @@
               <h4 class="section-title">Top 6 - Stagiaires les plus absents</h4>
               <div class="table-responsive">
                 <table class="table table-hover table-custom align-middle">
-                  <thead><tr><th>ID</th><th>Nom complet</th><th>Classe</th><th>Téléphone</th><th>Heures d'absence</th></tr></thead>
+                  <thead><tr><th>ID</th><th>Nom complet</th><th>Filière</th><th>Téléphone</th><th>Heures d'absence</th></tr></thead>
                   <tbody>
                     <?php foreach($topAbsents as $r): ?>
                       <tr>
@@ -66,7 +66,7 @@
                       <tr>
                         <td><?= htmlspecialchars($r['date']) ?></td>
                         <td><?= htmlspecialchars($r['nom']) ?></td>
-                        <td><![CDATA[<?= htmlspecialchars($r['filiere']) ?>]]></td>
+                        <td><?= htmlspecialchars($r['filiere']) ?></td>
                         <td><?= htmlspecialchars($r['seance']) ?></td>
                         <td><?= htmlspecialchars($r['motif']) ?></td>
                       </tr>

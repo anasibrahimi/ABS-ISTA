@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des Stagiaires</title>
+    <title>Gestion des Modules</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -27,7 +27,7 @@
       </nav>
 
       <main class="main-content p-2">
-        <h1 class="mb-4"><i class="bi bi-people"></i> Gestion des stagiaires</h1>
+        <h1 class="mb-4"><i class="bi bi-people"></i> Gestion des modules</h1>
 
         <!-- Boutons Import/Export -->
         <div class="mb-3">
@@ -47,21 +47,21 @@
             <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par nom complet...">
         </div>
 
-        <!-- Tableau des stagiaires -->
+        <!-- Tableau des modules -->
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>stagiaire_id</th>
-                    <th>Prenom</th>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Numero de telephone</th>
+                    
+                    <th>module_id</th>
+                    <th>Module</th>
                     <th>Filiere</th>
+                    <th>Enseignant</th>
+                    
                 </tr>
             </thead>
-            <tbody id="stagiairesTableBody">
+            <tbody id="modulesTableBody">
                 <!-- Contenu dynamique injecté -->
-            </tbody>
+            </tbody >
         </table>
       </main>
 
@@ -73,59 +73,59 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-// Gestion JS des stagiaires
+// Gestion JS des modules
 document.addEventListener('DOMContentLoaded', () => {
-    let stagiaires = [];
-    const tableBody = document.getElementById('stagiairesTableBody');
+    let modules = [];
+    const tableBody = document.getElementById('modulesTableBody');
     const searchInput = document.getElementById('searchInput');
     const importBtn = document.getElementById('importCanvasBtn');
     const downloadBtn = document.getElementById('downloadCanvasBtn');
 
-    // Charger les stagiaires
-    function fetchStagiaires() {
-        fetch('/ABS-ISTA/stagiaire/listStagiaires')
+    // Charger les modules
+    function fetchModules() {
+        fetch('/ABS-ISTA/module/listModules')
             .then(response => response.json())
             .then(data => {
-                stagiaires = data;
-                renderStagiaires(stagiaires);
+                modules = data;
+                renderModules(modules);
             });
     }
 
-    // Afficher les stagiaires dans le tableau
-    function renderStagiaires(list) {
+    // Afficher les modules dans le tableau
+    function renderModules(list) {
         tableBody.innerHTML = '';
-        list.forEach(stagiaire => {
+        list.forEach(module => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${stagiaire.stagiaire_id}</td>
-                <td>${stagiaire.first_name}</td>
-                <td>${stagiaire.last_name}</td>
-                <td>${stagiaire.email}</td>
-                <td>${stagiaire.phone}</td>
-                <td>${stagiaire.filiere_name}</td>
+                <td>${module.module_id}</td>
+                <td>${module.module_name}</td>
+                <td>${module.filiere_name}</td>
+                <td>${module.first_name} ${module.last_name} </td>
+
+                
             `;
             tableBody.appendChild(tr);
         });
     }
 
-    // Voir détails stagiaire
+    // Voir détails module
     window.viewDetails = function(id) {
-        alert('Afficher les détails du stagiaire ID: ' + id);
+        alert('Afficher les détails du module ID: ' + id);
         // tu peux aussi faire ici : ouvrir une modale ou rediriger
     };
 
     // Recherche
     searchInput.addEventListener('input', () => {
         const keyword = searchInput.value.toLowerCase();
-        const filtered = stagiaires.filter(s =>
+        const filtered = modules.filter(s =>
             s.nom_complet.toLowerCase().includes(keyword)
         );
-        renderStagiaires(filtered);
+        renderModules(filtered);
     });
 
     // Télécharger modèle Excel
     downloadBtn.addEventListener('click', () => {
-        window.location.href = '/ABS-ISTA/stagiaire/downloadModelCanva';
+        window.location.href = '/ABS-ISTA/module/downloadModelCanva';
     });
 
     // Importer fichier Excel
@@ -140,14 +140,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData();
         formData.append('excelFile', file);
 
-        fetch('/ABS-ISTA/stagiaire/importModelCanva', {
+        fetch('/ABS-ISTA/module/importModelCanva', {
             method: 'POST',
             body: formData
         })
         .then(response => response.json())
         .then(data => {
             alert(data.message || 'Importation réussie.');
-            fetchStagiaires();
+            fetchModules();
         })
         .catch(err => {
             console.error(err);
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    fetchStagiaires(); // Charger automatiquement
+    fetchModules(); // Charger automatiquement
 });
 </script>
 

@@ -36,25 +36,29 @@ class DashboardModel {
         $db = Database::getInstance()->getConnection();
 
         $month = date('Y-m');
-        $sql = "
-          SELECT
-            WEEK(recorded_at,1)
-              - WEEK(DATE_SUB(recorded_at, INTERVAL DAYOFMONTH(recorded_at)-1 DAY),1)+1 AS semaine,
+        $sql = $sql = "
+        SELECT
+            CASE
+                WHEN DAY(recorded_at) BETWEEN 1 AND 7 THEN 1
+                WHEN DAY(recorded_at) BETWEEN 8 AND 14 THEN 2
+                WHEN DAY(recorded_at) BETWEEN 15 AND 21 THEN 3
+                WHEN DAY(recorded_at) >= 22 THEN 4
+            END AS semaine,
             COUNT(*) AS total
-          FROM absences
-          WHERE DATE_FORMAT(recorded_at,'%Y-%m') = ?
-          GROUP BY semaine
-          ORDER BY semaine
-        ";
+        FROM absences
+        WHERE DATE_FORMAT(recorded_at,'%Y-%m') = ?
+        GROUP BY semaine
+        ORDER BY semaine
+    ";
         $stmt = $db->prepare($sql);
         $stmt->execute([$month]);
         $data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
         $labels = $values = [];
         for ($w = 1; $w <= 4; $w++) {
-            $labels[]  = "Semaine $w";
-            $values[]  = $data[$w] ?? 0;
-        }
+            $labels[] = "Semaine $w";
+            $values[] = $data[$w] ?? 0;
+        }        
         return [$labels, $values];
     }
 
@@ -89,8 +93,7 @@ class DashboardModel {
             JOIN stagiaire s ON a.stagiaire_id=s.stagiaire_id
             JOIN filiere f ON s.filiere_id=f.filiere_id
             JOIN seance se ON a.seance_id=se.seance_id
-            JOIN reference r ON se.ref_id=r.ref_id
-            JOIN module m ON r.module_id=m.module_id
+            JOIN module m ON se.module_id=m.module_id
            ORDER BY a.recorded_at DESC
            LIMIT 5
         ")->fetchAll(PDO::FETCH_ASSOC);

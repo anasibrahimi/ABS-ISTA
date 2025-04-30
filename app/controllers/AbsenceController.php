@@ -6,8 +6,8 @@ class AbsenceController {
         $filiereName = $_GET['filiereName'] ?? null; // Get filiereName from the query string
         $stagiaire = new Stagiaire();
         $stagiaires = $stagiaire->findByFiliereName($filiereName); // Fetch stagiaires based on filiereName
-        $reference = new Reference();
-        $references = $reference->findByFiliereName($filiereName); 
+        $module = new Module();
+        $modules = $module->findByFiliereName($filiereName); 
         require_once __DIR__ . '/../views/absence/add.php';
         exit();
     }
@@ -36,14 +36,14 @@ class AbsenceController {
         $absencesData = $_POST['absences'] ?? [];
         $seanceDate = $_POST['seanceDate'] ?? null;
         $seanceTime = $_POST['seanceTime'] ?? null;
-        $ref = $_POST['ref'] ?? null;
+        $module_id = $_POST['module_id'] ?? null;
 
 
         // Create a new Seance
         $seance = new Seance();
         $seance->setSeanceDate($seanceDate);
         $seance->setSeanceTime($seanceTime);
-        $seance->setRefId($ref);
+        $seance->setModuleId($module_id);
         $seance->setAnneeId(1);
         $seanceId = $seance->add(); // Save the seance and get its ID
 
@@ -62,7 +62,7 @@ class AbsenceController {
             }
         }
 
-         header('Location: /ABS-ISTA/absence/filiereView');
+         header('Location: /ABS-ISTA/seance');
         exit();
     }
 

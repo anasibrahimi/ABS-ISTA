@@ -26,6 +26,7 @@
                     <p><strong>Filiere :</strong> <?= htmlspecialchars($seance['filiere_name']) ?></p>
                     <p><strong>Module :</strong> <?= htmlspecialchars($seance['module_name']) ?></p>
                     <p><strong>Professeur :</strong> <?= htmlspecialchars($seance['enseignant_first_name'])." ".htmlspecialchars($seance['enseignant_last_name']) ?></p>
+                    <p><strong>Seance :</strong> <?= htmlspecialchars($seance['seance_time']) ?></p>
                     <p><strong>Date :</strong> <?= htmlspecialchars($seance['seance_date']) ?></p>
                 </div>
 
