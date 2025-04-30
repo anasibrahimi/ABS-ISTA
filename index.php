@@ -64,6 +64,12 @@ if (!AuthController::isAuthenticated()) {
     $router->post('/blockAccount', [AuthController::class, 'blockAccount']);
     $router->post('/toggleAccountStatus', [AuthController::class, 'toggleAccountStatus']);
 
+    // Gestion Enseignant
+    $router->get('/enseignant', [EnseignantController::class, 'enseignantsView']);
+    $router->get('/enseignant/listEnseignants', [EnseignantController::class, 'listEnseignants']);
+    $router->get('/enseignant/downloadModelCanva', [EnseignantController::class, 'downloadModelCanva']);
+    $router->post('/enseignant/importModelCanva', [EnseignantController::class, 'importModelCanva']);
+
     $router->get('/logout', [AuthController::class, 'logout']);
 
 }

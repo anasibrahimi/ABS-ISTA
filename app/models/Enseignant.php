@@ -15,6 +15,30 @@ class Enseignant
         $stmt->execute([ $last_name]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public static function findAll()
+    {
+        $db = Database::getInstance()->getConnection();
+        $query = $db->query("SELECT * FROM enseignant");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function findByEnseignantID($enseignant_id)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT enseignant_id FROM enseignant WHERE enseignant_id = ?");
+        $stmt->execute([$enseignant_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+
+    public function bulkInsert($rows) {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("INSERT INTO enseignant (first_name, last_name,email,phone) VALUES ( ?, ?, ?, ?)");
+        foreach ($rows as $row) {
+            $stmt->execute([$row['first_name'], $row['last_name'], $row['email'], $row['phone']]);
+        }
+    }
 
     public function getEnseignantId()
     {
