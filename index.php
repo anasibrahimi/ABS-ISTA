@@ -7,14 +7,14 @@ $router = new Router();
 
 // Middleware to protect routes
 if (!AuthController::isAuthenticated()) {
-    $router->get('/', [AuthController::class, 'redirectToLogin']); 
-    $router->get('/login', [AuthController::class, 'redirectToLogin']); 
-    $router->post('/check', [AuthController::class, 'login']); 
+    $router->get('/', [AuthController::class, 'redirectToLogin']);
+    $router->get('/login', [AuthController::class, 'redirectToLogin']);
+    $router->post('/check', [AuthController::class, 'login']);
 }
  elseif (!empty($_SESSION['blocked']) && $_SESSION['blocked'] == 1) {
-    $router->get('/', [AuthController::class, 'redirectToLogin']); 
-    $router->get('/login', [AuthController::class, 'redirectToLogin']); 
-    $router->post('/check', [AuthController::class, 'login']); 
+    $router->get('/', [AuthController::class, 'redirectToLogin']);
+    $router->get('/login', [AuthController::class, 'redirectToLogin']);
+    $router->post('/check', [AuthController::class, 'login']);
     $router->get('/', [AuthController::class, 'redirectToLogin']);
     $router->get('/blocked', [AuthController::class, 'redirectToLogin']);
 }
@@ -25,6 +25,7 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/absence/filiereView', [AbsenceController::class, 'filiereView']);
     $router->get('/absence/stagiaireView', [AbsenceController::class, 'stagiaireView']);
     $router->get('/absence/stagiare/details', [AbsenceController::class, 'detailsView']);
+    $router->get('/absence/justifyAll', [AbsenceController::class, 'justifyAllAbsences']);
     $router->post('/absence/create', [AbsenceController::class, 'createAbsences']);
 
     // gestion seances

@@ -1,7 +1,7 @@
 <?php
 
 class DashboardModel {
-   
+
 
     public function getStats(): array {
         $db = Database::getInstance()->getConnection();
@@ -47,6 +47,7 @@ class DashboardModel {
             COUNT(*) AS total
         FROM absences
         WHERE DATE_FORMAT(recorded_at,'%Y-%m') = ?
+        AND status != 'Justifiée'
         GROUP BY semaine
         ORDER BY semaine
     ";
@@ -58,7 +59,7 @@ class DashboardModel {
         for ($w = 1; $w <= 4; $w++) {
             $labels[] = "Semaine $w";
             $values[] = $data[$w] ?? 0;
-        }        
+        }
         return [$labels, $values];
     }
 
@@ -74,6 +75,7 @@ class DashboardModel {
             FROM absences a
             JOIN stagiaire s ON a.stagiaire_id=s.stagiaire_id
             JOIN filiere f ON s.filiere_id=f.filiere_id
+            WHERE a.status != 'Justifiée'
            GROUP BY s.stagiaire_id
            ORDER BY heures DESC
            LIMIT 6
@@ -94,6 +96,7 @@ class DashboardModel {
             JOIN filiere f ON s.filiere_id=f.filiere_id
             JOIN seance se ON a.seance_id=se.seance_id
             JOIN module m ON se.module_id=m.module_id
+            WHERE a.status != 'Justifiée'
            ORDER BY a.recorded_at DESC
            LIMIT 5
         ")->fetchAll(PDO::FETCH_ASSOC);
@@ -105,10 +108,10 @@ class DashboardModel {
         return $db->query("
           SELECT CONCAT(s.first_name,' ',s.last_name) AS nom,
                  f.filiere_name AS filiere,
-                 ROUND(((SELECT COUNT(*) FROM seance)-COUNT(a.absence_id))/
+                 ROUND(((SELECT COUNT(*) FROM seance)-COUNT(CASE WHEN a.status != 'Justifiée' THEN a.absence_id ELSE NULL END))/
                        (SELECT COUNT(*) FROM seance)*100,0) AS taux_val,
                  CONCAT(
-                   ROUND(((SELECT COUNT(*) FROM seance)-COUNT(a.absence_id))/
+                   ROUND(((SELECT COUNT(*) FROM seance)-COUNT(CASE WHEN a.status != 'Justifiée' THEN a.absence_id ELSE NULL END))/
                          (SELECT COUNT(*) FROM seance)*100,0),'%'
                  ) AS taux
             FROM stagiaire s

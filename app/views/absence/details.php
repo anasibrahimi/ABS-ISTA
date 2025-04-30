@@ -14,7 +14,7 @@
             <div class="container mx-auto p-6">
                 <div class="bg-white shadow-md rounded p-6">
                     <h1 class="text-2xl font-bold mb-4">Détails du stagiaire</h1>
-                    
+
                     <!-- Personal Information -->
                     <h2 class="text-xl font-semibold mb-2">Informations personnelles</h2>
                     <div class="grid grid-cols-2 gap-4 mb-4">
@@ -49,10 +49,22 @@
 
                     <!-- Buttons -->
                     <div class="flex justify-end space-x-4">
-                        <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Justifier tout</button>
-                        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Enregistrer les modifications</button>
+                        <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onclick="confirmJustifyAll()">Justifier tout</button>
                         <button class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400" onclick="history.back()">Fermer</button>
                     </div>
+
+                    <script>
+                        function confirmJustifyAll() {
+                            if (confirm("Êtes-vous sûr de vouloir justifier toutes les absences de ce stagiaire? Cette action changera le statut de toutes les absences à 'Justifiée'.")) {
+                                window.location.href = "/ABS-ISTA/absence/justifyAll?stagiaire_id=<?= $stagiaireDetails['stagiaire_id'] ?>&confirm=yes";
+                            }
+                        }
+
+                        // Show success message if absences were justified
+                        <?php if (isset($_GET['justified']) && $_GET['justified'] === 'true'): ?>
+                            alert("Toutes les absences ont été justifiées avec succès!");
+                        <?php endif; ?>
+                    </script>
                 </div>
             </div>
         </div>

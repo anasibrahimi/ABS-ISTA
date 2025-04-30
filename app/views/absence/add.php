@@ -17,7 +17,7 @@
                 <h2 class="text-xl font-semibold mb-4">Session Details</h2>
                 <div class="mb-4">
                     <label for="seanceDate" class="block text-sm font-medium">Date:</label>
-                    <input type="date" id="seanceDate" name="seanceDate" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    <input value="<?= date('Y-m-d') ?>" type="date" name="seanceDate" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                 </div>
                 <div class="mb-4">
                     <label for="seanceTime" class="block text-sm font-medium">Time:</label>
