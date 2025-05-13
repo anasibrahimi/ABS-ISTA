@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Absences</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Function to show the popup
+        function showSeanceExistsPopup(seanceId) {
+            if (confirm("This seance already exists. Do you want to delete it?")) {
+                // Redirect to delete the seance
+                window.location.href = '/ABS-ISTA/seance/delete?seanceId=' + seanceId;
+            } else {
+                // Cancel button clicked, return to the previous page
+                window.history.back();
+            }
+        }
+
+        // Check if the seance exists and show the popup
+        <?php if (isset($_GET['seanceExists']) && $_GET['seanceExists'] === 'true' && isset($_GET['seanceId'])): ?>
+            showSeanceExistsPopup(<?= $_GET['seanceId'] ?>);
+        <?php endif; ?>
+    </script>
 </head>
 <body class="bg-gray-100 text-gray-800">
 <button class="mobile-toggle" id="toggleSidebar"><i class="bi bi-list"></i></button>

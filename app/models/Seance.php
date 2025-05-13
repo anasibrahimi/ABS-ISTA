@@ -26,13 +26,13 @@ class Seance
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    // public static function update($id, $data)
-    // {
-    //     $db = Database::getInstance()->getConnection();
-    //     $stmt = $db->prepare("UPDATE seance SET seance_date = ?, seance_time = ?, module_id = ? WHERE seance_id = ?");
-    //     return $stmt->execute([$data['seance_date'], $data['seance_time'], $data['module_id'], $id]);
-    // }
+      // Method to check if a seance already exists
+      public static function seanceExists($seanceDate, $seanceTime, $module_id) {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT * FROM seance WHERE seance_date = ? AND seance_time = ? AND module_id = ?");
+        $stmt->execute([$seanceDate, $seanceTime, $module_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
     public static function delete($id)
     {

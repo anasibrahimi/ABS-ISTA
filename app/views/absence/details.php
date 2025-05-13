@@ -6,7 +6,7 @@
     <title>Détails du stagiaire</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-blue-50 text-gray-800">
 <button class="mobile-toggle" id="toggleSidebar"><i class="bi bi-list"></i></button>
     <?php include __DIR__ . '/../partials/layout.html'; ?>
     <div id="content" class="container mx-30 flex justify-center  min-h-screen">
@@ -26,22 +26,22 @@
 
                     <!-- Absence History -->
                     <h2 class="text-xl font-semibold mb-2">Historique de l'absence</h2>
-                    <table class="table-auto w-full border-collapse border border-gray-300 mb-4">
-                        <thead class="bg-gray-200">
+                    <table class="table-auto w-full border-collapse border border-blue-200 mb-4">
+                        <thead class="bg-blue-100">
                             <tr>
-                                <th class="border border-gray-300 px-4 py-2">Date</th>
-                                <th class="border border-gray-300 px-4 py-2">Module</th>
-                                <th class="border border-gray-300 px-4 py-2">Seance</th>
-                                <th class="border border-gray-300 px-4 py-2">Statut</th>
+                                <th class="border border-blue-200 px-4 py-2">Date</th>
+                                <th class="border border-blue-200 px-4 py-2">Module</th>
+                                <th class="border border-blue-200 px-4 py-2">Seance</th>
+                                <th class="border border-blue-200 px-4 py-2">Statut</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($absences as $absence): ?>
                                 <tr>
-                                    <td class="border border-gray-300 px-4 py-2"><?= htmlspecialchars($absence['seance_date']) ?></td>
-                                    <td class="border border-gray-300 px-4 py-2"><?= htmlspecialchars($absence['module_name']) ?></td>
-                                    <td class="border border-gray-300 px-4 py-2"><?= htmlspecialchars($absence['seance_time']) ?></td>
-                                    <td class="border border-gray-300 px-4 py-2"><?= htmlspecialchars($absence['status']) ?></td>
+                                    <td class="border border-blue-200 px-4 py-2"><?= htmlspecialchars($absence['seance_date']) ?></td>
+                                    <td class="border border-blue-200 px-4 py-2"><?= htmlspecialchars($absence['module_name']) ?></td>
+                                    <td class="border border-blue-200 px-4 py-2"><?= htmlspecialchars($absence['seance_time']) ?></td>
+                                    <td class="border border-blue-200 px-4 py-2"><?= htmlspecialchars($absence['status']) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -49,8 +49,8 @@
 
                     <!-- Buttons -->
                     <div class="flex justify-end space-x-4">
-                        <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onclick="confirmJustifyAll()">Justifier tout</button>
-                        <button class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400" onclick="history.back()">Fermer</button>
+                        <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onclick="confirmJustifyAll()">Justifier tout</button>
+                        <button class="bg-red-300 text-gray-800 px-4 py-2 rounded hover:bg-red-400" onclick="history.back()">Fermer</button>
                     </div>
 
                     <script>

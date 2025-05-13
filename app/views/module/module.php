@@ -53,9 +53,9 @@
                 <tr>
                     
                     <th>module_id</th>
-                    <th>Module</th>
-                    <th>Filiere</th>
-                    <th>Enseignant</th>
+                    <th>module</th>
+                    <th>filiere</th>
+                    <th>enseignant</th>
                     
                 </tr>
             </thead>

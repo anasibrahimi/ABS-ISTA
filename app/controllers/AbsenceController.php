@@ -29,24 +29,31 @@ class AbsenceController {
         exit();
     }
 
-    // the creation of multiple absences
-    //for a single session (Seance).
-    public function createAbsences() {
+ 
 
+    // the creation of multiple absences for a single session (Seance).
+    public function createAbsences() {
         $absencesData = $_POST['absences'] ?? [];
         $seanceDate = $_POST['seanceDate'] ?? null;
         $seanceTime = $_POST['seanceTime'] ?? null;
         $module_id = $_POST['module_id'] ?? null;
 
-
         // Create a new Seance
         $seance = new Seance();
-        $seance->setSeanceDate($seanceDate);
-        $seance->setSeanceTime($seanceTime);
-        $seance->setModuleId($module_id);
-        $seance->setAnneeId(1);
-        $seanceId = $seance->add(); // Save the seance and get its ID
-
+        // Check if the seance already exists
+        $existingSeance = $seance->seanceExists($seanceDate, $seanceTime, $module_id);
+        if ($existingSeance) {
+            // Seance already exists, redirect with a message
+            header('Location: /ABS-ISTA/absence/addView?seanceExists=true&seanceId=' . $existingSeance['seance_id']);
+            exit();
+        }else{
+            $seance->setSeanceDate($seanceDate);
+            $seance->setSeanceTime($seanceTime);
+            $seance->setModuleId($module_id);
+            $seance->setAnneeId(1);
+            $seanceId = $seance->add(); // Save the seance and get its ID
+        }
+       
         foreach ($absencesData as $absenceData) {
             // Process only if the checkbox (status) is marked
             if (isset($absenceData['status']) && $absenceData['status'] === '1') {
@@ -62,7 +69,7 @@ class AbsenceController {
             }
         }
 
-         header('Location: /ABS-ISTA/seance');
+        header('Location: /ABS-ISTA/seance');
         exit();
     }
 
