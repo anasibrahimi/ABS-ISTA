@@ -7,7 +7,7 @@ class Stagiaire
     private $last_name;
     private $email;
     private $phone;
-    private $filiere_id;
+    private $groupe_id;
 
     public static function findAll()
     {

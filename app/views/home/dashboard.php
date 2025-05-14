@@ -40,7 +40,7 @@
               <h4 class="section-title">Top 6 - Stagiaires les plus absents</h4>
               <div class="table-responsive">
                 <table class="table table-hover table-custom align-middle">
-                  <thead><tr><th>ID</th><th>Nom complet</th><th>Filière</th><th>Téléphone</th><th>Heures d'absence</th></tr></thead>
+                  <thead><tr><th>ID</th><th>Nom complet</th><th>Groupe</th><th>Téléphone</th><th>Heures d'absence</th></tr></thead>
                   <tbody>
                     <?php foreach($topAbsents as $r): ?>
                       <tr>
@@ -60,13 +60,13 @@
               <h4 class="section-title">Dernières absences enregistrées</h4>
               <div class="table-responsive">
                 <table class="table table-striped table-custom align-middle">
-                  <thead><tr><th>Date</th><th>Nom</th><th>Filière</th><th>Séance</th><th>Motif</th></tr></thead>
+                  <thead><tr><th>Date</th><th>Nom</th><th>Groupe</th><th>Séance</th><th>Motif</th></tr></thead>
                   <tbody>
                     <?php foreach($recentAbsences as $r): ?>
                       <tr>
                         <td><?= htmlspecialchars($r['date']) ?></td>
                         <td><?= htmlspecialchars($r['nom']) ?></td>
-                        <td><?= htmlspecialchars($r['filiere']) ?></td>
+                        <td><?= htmlspecialchars($r['groupe']) ?></td>
                         <td><?= htmlspecialchars($r['seance']) ?></td>
                         <td><?= htmlspecialchars($r['motif']) ?></td>
                       </tr>
@@ -80,13 +80,13 @@
               <h4 class="section-title">Stagiaires les plus assidus</h4>
               <div class="table-responsive">
                 <table class="table table-hover table-custom align-middle">
-                  <thead><tr><th>#</th><th>Nom</th><th>Filière</th><th>Présence</th></tr></thead>
+                  <thead><tr><th>#</th><th>Nom</th><th>Groupe</th><th>Présence</th></tr></thead>
                   <tbody>
                     <?php foreach($topPresents as $idx => $r): ?>
                       <tr>
                         <td><?= $idx+1 ?></td>
                         <td><?= htmlspecialchars($r['nom']) ?></td>
-                        <td><?= htmlspecialchars($r['filiere']) ?></td>
+                        <td><?= htmlspecialchars($r['groupe']) ?></td>
                         <td><?= $r['taux'] ?></td>
                       </tr>
                     <?php endforeach; ?>

@@ -51,12 +51,12 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>stagiaire_id</th>
+                    <th>ID</th>
                     <th>Prenom</th>
                     <th>Nom</th>
                     <th>Email</th>
                     <th>Numero de telephone</th>
-                    <th>Filiere</th>
+                    <th>Groupe</th>
                 </tr>
             </thead>
             <tbody id="stagiairesTableBody">

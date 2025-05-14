@@ -1,6 +1,5 @@
 <?php
 
-
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/app/core/Router.php';
 
@@ -11,15 +10,13 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/', [AuthController::class, 'redirectToLogin']);
     $router->get('/login', [AuthController::class, 'redirectToLogin']);
     $router->post('/check', [AuthController::class, 'login']);
-}
- elseif (!empty($_SESSION['blocked']) && $_SESSION['blocked'] == 1) {
+} elseif (!empty($_SESSION['blocked']) && $_SESSION['blocked'] == 1) {
     $router->get('/', [AuthController::class, 'redirectToLogin']);
     $router->get('/login', [AuthController::class, 'redirectToLogin']);
     $router->post('/check', [AuthController::class, 'login']);
     $router->get('/', [AuthController::class, 'redirectToLogin']);
     $router->get('/blocked', [AuthController::class, 'redirectToLogin']);
-}
- else {
+} else {
     $router->get('/', [DashboardController::class, 'index']);
     $router->get('/dashboard', [DashboardController::class, 'index']);
     $router->get('/absence/addView', [AbsenceController::class, 'addView']);
@@ -71,8 +68,14 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/enseignant/downloadModelCanva', [EnseignantController::class, 'downloadModelCanva']);
     $router->post('/enseignant/importModelCanva', [EnseignantController::class, 'importModelCanva']);
 
-    $router->get('/logout', [AuthController::class, 'logout']);
+    // Gestion Groupes
+    $router->get('/group', [GroupController::class, 'groupView']);
+    $router->get('/group/listGroups', [GroupController::class, 'listGroups']);
+    $router->get('/group/downloadModelCanva', [GroupController::class, 'downloadModelCanva']);
+    $router->post('/group/importModelCanva', [GroupController::class, 'importModelCanva']);
 
+    $router->get('/logout', [AuthController::class, 'logout']);
 }
+
 // Dispatch the request
 $router->dispatch();
