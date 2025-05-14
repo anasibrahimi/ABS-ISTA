@@ -14,11 +14,11 @@
     <div id="content" class="container mx-30 flex justify-center  min-h-screen">
     <div class="w-full max-w-6xl">
 
-        <h1 class="text-2xl font-bold mb-6 text-center"><?= htmlspecialchars($filiereName) ?></h1>
+        <h1 class="text-2xl font-bold mb-6 text-center"><?= htmlspecialchars($groupeName) ?></h1>
         
         <!-- Mark Absences Form -->
         <form action="/ABS-ISTA/absence/addView" method="get">
-            <input type="hidden" name="filiereName" value="<?= htmlspecialchars($filiereName) ?>">
+            <input type="hidden" name="groupeName" value="<?= htmlspecialchars($groupeName) ?>">
             <div class="mb-4">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     Mark Absences

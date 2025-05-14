@@ -12,29 +12,29 @@ class Stagiaire
     public static function findAll()
     {
         $db = Database::getInstance()->getConnection();
-        $query = $db->query("SELECT * FROM stagiaire s join filiere f on s.filiere_id = f.filiere_id");
+        $query = $db->query("SELECT * FROM stagiaire s join groupes g on s.groupe_id = g.groupe_id");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function findByFiliereId($filiere_id)
+    public static function findByGroupeId($groupe_id)
     {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("SELECT * FROM stagiaire WHERE filiere_id = :filiere_id");
-        $stmt->bindParam(':filiere_id', $filiere_id, PDO::PARAM_INT);
+        $stmt = $db->prepare("SELECT * FROM stagiaire WHERE groupe_id = :groupe_id");
+        $stmt->bindParam(':groupe_id', $groupe_id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function findByFiliereName($filiere_name)
+    public static function findByGroupeName($groupe_name)
     {
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("
-            SELECT stagiaire.* 
-            FROM stagiaire 
-            INNER JOIN filiere ON stagiaire.filiere_id = filiere.filiere_id 
-            WHERE filiere.filiere_name = :filiere_name
+            SELECT *
+            FROM stagiaire s
+             JOIN groupes g ON s.groupe_id =g.groupe_id 
+            WHERE g.groupe_name = :groupe_name
         ");
-        $stmt->bindParam(':filiere_name', $filiere_name, PDO::PARAM_STR);
+        $stmt->bindParam(':groupe_name', $groupe_name, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -50,9 +50,9 @@ class Stagiaire
     
     public function bulkInsert($rows) {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("INSERT INTO stagiaire ( first_name, last_name, email, phone , filiere_id) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO stagiaire ( first_name, last_name, email, phone , groupe_id) VALUES (?, ?, ?, ?, ?)");
         foreach ($rows as $row) {
-            $stmt->execute([ $row['first_name'], $row['last_name'], $row['email'], $row['phone'], $row['filiere_id']]);
+            $stmt->execute([ $row['first_name'], $row['last_name'], $row['email'], $row['phone'], $row['groupe_id']]);
         }
     }
 
@@ -106,13 +106,13 @@ class Stagiaire
         $this->phone = $phone;
     }
 
-    public function getFiliereId()
+    public function getGroupeId()
     {
-        return $this->filiere_id;
+        return $this->groupe_id;
     }
 
-    public function setFiliereId($filiere_id)
+    public function setGroupeId($groupe_id)
     {
-        $this->filiere_id = $filiere_id;
+        $this->groupe_id = $groupe_id;
     }
 }

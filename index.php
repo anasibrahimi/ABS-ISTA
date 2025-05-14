@@ -21,7 +21,7 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/dashboard', [DashboardController::class, 'index']);
     $router->get('/absence/addView', [AbsenceController::class, 'addView']);
     $router->get('/absence/filiereView', [AbsenceController::class, 'filiereView']);
-    $router->get('/absence/stagiaireView', [AbsenceController::class, 'stagiaireView']);
+    $router->get('/absence/groupDetails', [AbsenceController::class, 'groupDetails']);
     $router->get('/absence/stagiare/details', [AbsenceController::class, 'detailsView']);
     $router->get('/absence/justifyAll', [AbsenceController::class, 'justifyAllAbsences']);
     $router->post('/absence/create', [AbsenceController::class, 'createAbsences']);

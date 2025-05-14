@@ -59,10 +59,10 @@ class Seance
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT s.seance_date, s.seance_time, e.first_name AS enseignant_first_name,
                                  e.last_name AS enseignant_last_name, 
-                                 m.module_name, f.filiere_name 
+                                 m.module_name, g.groupe_name 
                               FROM seance s
                               JOIN module m ON m.module_id = s.module_id
-                              JOIN filiere f ON f.filiere_id = m.filiere_id
+                              JOIN groupes g ON g.groupe_id = m.groupe_id
                               JOIN enseignant e ON e.enseignant_id = m.enseignant_id  
                               WHERE s.seance_id = ?"); 
         $stmt->execute([$id]);

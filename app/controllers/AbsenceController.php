@@ -3,11 +3,10 @@
 class AbsenceController {
     // Method to render the view for adding an absence
     public function addView() {
-        $filiereName = $_GET['filiereName'] ?? null; // Get filiereName from the query string
-        $stagiaire = new Stagiaire();
-        $stagiaires = $stagiaire->findByFiliereName($filiereName); // Fetch stagiaires based on filiereName
+        $groupeName = $_GET['groupeName'] ?? null; // Get filiereName from the query string
+        $stagiaires = Stagiaire::findByGroupeName($groupeName); // Fetch stagiaires based on filiereName
         $module = new Module();
-        $modules = $module->findByFiliereName($filiereName);
+        $modules = $module->findByGroupeName($groupeName);
         require_once __DIR__ . '/../views/absence/add.php';
         exit();
     }
@@ -21,10 +20,10 @@ class AbsenceController {
     }
 
     // Method to redirect to the stagiaire view
-    public function stagiaireView() {
-        $filiereName = $_GET['filiereName'] ?? null; // Get filiereName from the query string
+    public function groupDetails() {
+        $groupeName = $_GET['groupeName'] ?? null; // Corrected to get groupeName from the query string
         $stagiaire = new Stagiaire();
-        $stagiaires = $stagiaire->findByFiliereName($filiereName); // Fetch stagiaires based on filiereName
+        $stagiaires = $stagiaire->findByGroupeName($groupeName); // Fetch stagiaires based on groupeName
         require_once __DIR__ . '/../views/absence/stagiaire.php';
         exit();
     }
@@ -38,6 +37,13 @@ class AbsenceController {
         $seanceTime = $_POST['seanceTime'] ?? null;
         $module_id = $_POST['module_id'] ?? null;
 
+        // Check if the seance already exists
+        $existingSeance = Seance::seanceExists($seanceDate, $seanceTime, $module_id);
+        if ($existingSeance) {
+            // Redirect to the add view with a parameter indicating the seance already exists
+            header('Location: /ABS-ISTA/absence/addView?seanceExists=true&seanceId=' . $existingSeance['seance_id']);
+            exit();
+        }
 
         // Create a new Seance
         $seance = new Seance();
@@ -62,7 +68,7 @@ class AbsenceController {
             }
         }
 
-         header('Location: /ABS-ISTA/seance');
+        header('Location: /ABS-ISTA/seance');
         exit();
     }
 

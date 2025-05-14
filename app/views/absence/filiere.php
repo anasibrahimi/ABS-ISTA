@@ -5,8 +5,8 @@
     <title>Filiere Selection</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        function navigateToGroupDetails(groupId) {
-            window.location.href = '/ABS-ISTA/absence/groupDetails?groupId=' + groupId;
+        function navigateToGroupDetails(groupName) {
+            window.location.href = '/ABS-ISTA/absence/groupDetails?groupeName=' + encodeURIComponent(groupName); // Ensure groupName is encoded
         }
     </script>
 </head>
@@ -15,28 +15,30 @@
     <?php include __DIR__ . '/../partials/layout.html'; ?>
     <div id="content" class="container mx-auto p-6 flex justify-center items-center min-h-screen">
         <div class="ml-64 p-6" id="content">
-            <h1 class="text-2xl font-bold mb-6 text-center">Select a Filiere</h1>
-            <div class="flex flex-wrap gap-10">
-                <?php $groups = ["groupe","groupe","groupe"] ; foreach ($filieres as $filiere): ?>
-                    <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-4 rounded-lg border border-gray-300 bg-white shadow p-4">
-                    <!-- Filieres -->
+            <h1 class="text-2xl font-bold mb-6 text-center">Sélectionnez votre groupe</h1>          
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Titre de la filière -->
+                <?php foreach ($filieres as $filiere):  $groups = Groups::findByFiliereId($filiere['filiere_id']) ; ?>
+                    <?php $fName = urlencode($filiere['filiere_name']); ?>
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <!-- Titre de la filière -->
                         <h2 class="text-2xl font-bold text-blue-700 mb-1">
-                            <?= htmlspecialchars($filiere['filiere_name']) ?>
+                                <?= htmlspecialchars($filiere['filiere_name']) ?>
                         </h2>
-                        <!-- Dropdown for groupes -->
-                        <div>
-                            <label for="groupes_<?= $filiere['filiere_id'] ?>" class="block text-sm font-medium text-gray-700 mb-1">Groupes</label>
-                            <select id="groupes_<?= $filiere['filiere_id'] ?>" onchange="navigateToGroupDetails(this.value)" class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                <option value=""> Sélectionner un groupe </option>
-                                <?php foreach ($groups as $groupe): ?>
-                                    <option value="<?= htmlspecialchars($groupe) ?>"><?= htmlspecialchars($groupe) ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
+                        <!-- Sélection de classe et bouton lien -->
+                        <div class="flex flex-col items-center space-y-4">
+                                <select  class="w-full p-2 border border-gray-300 rounded" onchange="navigateToGroupDetails(this.value)">
+                                    <option  disabled selected>Choisissez un groupe</option>
+                                        <?php foreach ($groups as $groupe): ?>
+                                            <option name="groupeName" value="<?= htmlspecialchars($groupe['groupe_name']) ?>"><?= htmlspecialchars($groupe['groupe_name']) ?></option>
+                                        <?php endforeach; ?>
+                                </select>
+                            </div>
                     </div>
                 <?php endforeach; ?>
             </div>
-
+          
         </div>
     </div>
 </body>

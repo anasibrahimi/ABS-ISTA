@@ -4,36 +4,36 @@ class Module
 {
     private $module_id;
     private $module_name;
-    private $filiere_id;
+    private $groupe_id;
     private $enseignant_id;
 
     public static function findAll()
     {
         $db = Database::getInstance()->getConnection();
-        $query = $db->query("SELECT * FROM module m join filiere f on m.filiere_id = f.filiere_id
+        $query = $db->query("SELECT * FROM module m join groupes g on m.groupe_id = g.groupe_id // 修改: filiere -> groupe
         join enseignant e on m.enseignant_id = e.enseignant_id");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function findByFiliereName($filiereName)
+    public function findByGroupeName($groupeName) 
     {
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("
             SELECT *
-            FROM module m JOIN filiere f ON m.filiere_id = f.filiere_id
+            FROM module m JOIN groupes g ON m.groupe_id = g.groupe_id 
             JOIN enseignant e on m.enseignant_id = e.enseignant_id
-            WHERE f.filiere_name = :filiere_name
+            WHERE g.groupe_name = :groupe_name
         ");
-        $stmt->bindParam(':filiere_name', $filiereName, PDO::PARAM_STR);
+        $stmt->bindParam(':groupe_name', $groupeName, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function bulkInsert($rows) {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("INSERT INTO module (module_name,filiere_id, enseignant_id) VALUES (?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO module (module_name,groupe_id, enseignant_id) VALUES (?, ?, ?)"); 
         foreach ($rows as $row) {
-            $stmt->execute([$row['module_name'], $row['filiere_id'], $row['enseignant_id']]);
+            $stmt->execute([$row['module_name'], $row['groupe_id'], $row['enseignant_id']]); 
         }
     }
 
@@ -57,13 +57,13 @@ class Module
         $this->module_name = $module_name;
     }
 
-    public function getFiliereId()
+    public function getGroupeId() 
     {
-        return $this->filiere_id;
+        return $this->groupe_id;
     }
 
-    public function setFiliereId($filiere_id)
+    public function setGroupeId($groupe_id) 
     {
-        $this->filiere_id = $filiere_id;
+        $this->groupe_id = $groupe_id;
     }
 }

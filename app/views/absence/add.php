@@ -29,7 +29,7 @@
 
     <div id="content" class="container mx-30 flex justify-center  min-h-screen">
         <div class="w-full max-w-6xl">
-            <h1 class="text-2xl font-bold mb-6 text-center">Add Absences For : <?= $filiereName ?></h1>
+            <h1 class="text-2xl font-bold mb-6 text-center">Add Absences For : <?= $groupeName ?></h1>
             <form action="/ABS-ISTA/absence/create" method="POST" class="bg-white p-6 rounded shadow-md">
                 <h2 class="text-xl font-semibold mb-4">Session Details</h2>
                 <div class="mb-4">
