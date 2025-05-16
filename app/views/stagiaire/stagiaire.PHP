@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${stagiaire.last_name}</td>
                 <td>${stagiaire.email}</td>
                 <td>${stagiaire.phone}</td>
-                <td>${stagiaire.filiere_name}</td>
+                <td>${stagiaire.groupe_name}</td>
             `;
             tableBody.appendChild(tr);
         });

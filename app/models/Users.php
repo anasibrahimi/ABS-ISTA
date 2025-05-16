@@ -25,7 +25,7 @@ class Users
     public static function findAll()
     {
         $db = Database::getInstance()->getConnection();
-        $query = $db->query("SELECT * FROM users");
+        $query = $db->query("SELECT * FROM users where user_id != 1 and user_id != 2");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 

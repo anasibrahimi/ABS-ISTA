@@ -51,6 +51,8 @@
                         <th>ID</th>
                         <th>Groupe</th>
                         <th>Filière</th>
+                        <th>Gestionnaire</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="groupsTableBody">
@@ -92,6 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${group.groupe_id}</td>
                 <td>${group.groupe_name}</td>
                 <td>${group.filiere_name}</td>
+                <td>${group.username}</td>
+                <td>
+                    ${group.username === "pas encore affecté" ? '<button class="btn btn-warning" onclick="window.location.href=\'/ABS-ISTA/group/groupManagement?id=' + group.groupe_id + '\'">Affecter</button>' : ''}
+                </td>
             `;
             tableBody.appendChild(tr);
         });
@@ -101,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('input', () => {
         const keyword = searchInput.value.toLowerCase();
         const filtered = groups.filter(g =>
-            g.group_name.toLowerCase().includes(keyword) ||
+            g.groupe_name.toLowerCase().includes(keyword) ||
             g.filiere_name.toLowerCase().includes(keyword)
         );
         renderGroups(filtered);

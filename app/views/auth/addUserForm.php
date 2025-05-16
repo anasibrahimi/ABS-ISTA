@@ -24,8 +24,7 @@
             <div class="mb-4">
                 <label for="role" class="block text-gray-700">Role</label>
                 <select id="role" name="role" class="w-full px-4 py-2 border rounded" required>
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
+                    <option value="gestionnaire">Gestionnaire</option>
                 </select>
             </div>
             <div class="mb-4">

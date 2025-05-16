@@ -10,17 +10,51 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/', [AuthController::class, 'redirectToLogin']);
     $router->get('/login', [AuthController::class, 'redirectToLogin']);
     $router->post('/check', [AuthController::class, 'login']);
-} elseif (!empty($_SESSION['blocked']) && $_SESSION['blocked'] == 1) {
+}
+ elseif (!empty($_SESSION['blocked']) && $_SESSION['blocked'] == 1) {
     $router->get('/', [AuthController::class, 'redirectToLogin']);
     $router->get('/login', [AuthController::class, 'redirectToLogin']);
     $router->post('/check', [AuthController::class, 'login']);
     $router->get('/', [AuthController::class, 'redirectToLogin']);
     $router->get('/blocked', [AuthController::class, 'redirectToLogin']);
-} else {
+}
+ else {
+    if($_SESSION['role'] == 'gestionnaire') {
+
+        $router->get('/', [DashboardController::class, 'index']);
+        $router->get('/dashboard', [DashboardController::class, 'index']);
+        $router->get('/absence/addView', [AbsenceController::class, 'addView']);
+        $router->get('/absence/gestionnaireView', [AbsenceController::class, 'gestionnaireView']);
+        $router->get('/absence/groupDetails', [AbsenceController::class, 'groupDetails']);
+        $router->get('/absence/stagiare/details', [AbsenceController::class, 'detailsView']);
+        $router->get('/absence/justifyAll', [AbsenceController::class, 'justifyAllAbsences']);
+        $router->post('/absence/create', [AbsenceController::class, 'createAbsences']);
+
+         // gestion seances
+        $router->get('/seance', [SeanceController::class, 'seanceView']);
+        $router->get('/seance/delete', [SeanceController::class, 'deleteSeance']);
+        $router->get('/seance/details', [SeanceController::class, 'detailsView']);
+
+        // Gestion Stagiaires
+        $router->get('/stagiaire', [StagiaireController::class, 'stagiaireView']);
+        $router->get('/stagiaire/listStagiaires', [StagiaireController::class, 'listStagiaires']);
+        $router->get('/stagiaire/downloadModelCanva', [StagiaireController::class, 'downloadModelCanva']);
+        $router->post('/stagiaire/importModelCanva', [StagiaireController::class, 'importModelCanva']);
+
+        $router->get('/group', [AuthController::class, 'unauthorizedPage']);
+        $router->get('/enseignant', [AuthController::class, 'unauthorizedPage']);
+        $router->get('/users', [AuthController::class, 'unauthorizedPage']);
+        $router->get('/secteur', [AuthController::class, 'unauthorizedPage']);
+        $router->get('/filiere', [AuthController::class, 'unauthorizedPage']);
+        $router->get('/module', [AuthController::class, 'unauthorizedPage']);
+
+
+        $router->get('/logout', [AuthController::class, 'logout']);
+    }else{
     $router->get('/', [DashboardController::class, 'index']);
     $router->get('/dashboard', [DashboardController::class, 'index']);
     $router->get('/absence/addView', [AbsenceController::class, 'addView']);
-    $router->get('/absence/filiereView', [AbsenceController::class, 'filiereView']);
+    $router->get('/absence/adminView', [AbsenceController::class, 'adminView']);
     $router->get('/absence/groupDetails', [AbsenceController::class, 'groupDetails']);
     $router->get('/absence/stagiare/details', [AbsenceController::class, 'detailsView']);
     $router->get('/absence/justifyAll', [AbsenceController::class, 'justifyAllAbsences']);
@@ -73,9 +107,11 @@ if (!AuthController::isAuthenticated()) {
     $router->get('/group/listGroups', [GroupController::class, 'listGroups']);
     $router->get('/group/downloadModelCanva', [GroupController::class, 'downloadModelCanva']);
     $router->post('/group/importModelCanva', [GroupController::class, 'importModelCanva']);
+    $router->get('/group/groupManagement', [GroupController::class, 'groupManagement']);
+    $router->post('/group/assignManager', [GroupController::class, 'assignManager']);
 
     $router->get('/logout', [AuthController::class, 'logout']);
+    }
 }
-
 // Dispatch the request
 $router->dispatch();

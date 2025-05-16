@@ -12,12 +12,18 @@ class AbsenceController {
     }
 
     // Method to redirect to the filiere selection view
-    public function filiereView() {
+    public function adminView() {
         $filiere = new Filiere();
         $filieres = $filiere->findAll(); // Fetch all filieres
         require_once __DIR__ . '/../views/absence/filiere.php';
         exit();
     }
+
+    public function gestionnaireView() {
+        $groups = Groups::findByUserId($_SESSION['user_id']);
+        require_once __DIR__ . '/../views/absence/gestionnaire.php';
+    }
+
 
     // Method to redirect to the stagiaire view
     public function groupDetails() {

@@ -23,9 +23,6 @@
       <main class="main-content p-2">
         <h2 style="border-bottom: blue solid 5px;margin-bottom: 10px; margin-top: 5px;"> <i class="bi bi-person-lines-fill"></i>Gestion de compte</h2>
 
-        <!-- Instructional text for canva download/import -->
-        <p>Veuillez suivre les instructions suivantes pour télécharger et importer le canva.</p>
-
         <!-- Button to add a new user -->
         <div class="mb-3">
           <a href="/ABS-ISTA/addUser" class="btn btn-primary" id="addUserButton"><i class="bi bi-person-plus"></i> Ajouter Utilisateur</a>
@@ -43,6 +40,7 @@
             <th>ID</th>
             <th>Username</th>
             <th>Type de compte</th>
+            <th>Droits d'acces</th>
             <th>Action</th>
           </tr>
           </thead>
@@ -52,6 +50,7 @@
             <td><?= htmlspecialchars($user['user_id']) ?></td>
             <td><?= htmlspecialchars($user['username']) ?></td>
             <td><?= htmlspecialchars($user['role']) ?></td>
+            <td><?= $user['username'] == 'admin' ? 'Tout les droits' : 'Developpement Info' ?></td>
             <td>
               <form method="POST" action="/ABS-ISTA/toggleAccountStatus" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment changer le statut de ce user ?');">
                 <input type="hidden" name="user_id" value="<?= htmlspecialchars($user['user_id']) ?>">

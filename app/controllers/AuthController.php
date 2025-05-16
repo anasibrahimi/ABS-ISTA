@@ -15,9 +15,12 @@ class AuthController {
             $_SESSION['role'] = $user->getRole();
             $_SESSION['blocked'] = $user->isBlocked();
 
-            if ($_SESSION['blocked'] == 0) {
+            if ($_SESSION['blocked'] == 0 && $_SESSION['role'] === 'admin') {
                 header('Location: /ABS-ISTA/dashboard');
-            } else {
+            }elseif($_SESSION['blocked'] == 0 && $_SESSION['role'] === 'gestionnaire'){
+                header('Location: /ABS-ISTA/absence/gestionnaireView');
+            }
+             else {
                 header('Location: /ABS-ISTA/blocked?blocked=' . urlencode('Votre compte est bloqué.'));
             }
         } else {
@@ -41,6 +44,11 @@ class AuthController {
         require_once __DIR__ . '/../views/auth/login.php'; // Corrected path
         exit();
     }
+
+    public function unauthorizedPage(){
+        require_once __DIR__ . '/../views/auth/unauthorized.php'; // Corrected path
+        exit();
+    }	
 
     // Redirect to the login view
     public function redirectToLogin($error = null) {

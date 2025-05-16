@@ -14,6 +14,33 @@ class GroupController {
         exit();
     }
 
+
+    // method for group management view
+    public function groupManagement() {
+        $group = Groups::findById($_GET['id']);
+
+        $user = new Users();
+        $users = $user->findAll();
+
+        require_once __DIR__ . '/../views/groups/group_management.php';
+        exit();
+    }
+
+    public function assignManager() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $groupe_id = $_POST['groupe_id'];
+            $user_id = $_POST['user_id'];
+
+            $group = new Groups();
+            $group->updateUserForGroup($groupe_id, $user_id);
+
+            header('Location: /ABS-ISTA/group');
+        } else {
+            http_response_code(405);
+            echo json_encode(["error" => "Method not allowed"]);
+        }
+    }
+
     // method for download model canva
     public function downloadModelCanva() {
         $filePath = __DIR__ . '/../../app/resources/canvas/groupe-canva.xlsx'; // Adjust the file name and extension as needed
@@ -63,7 +90,8 @@ class GroupController {
                     
                     $rows[] = [
                         'group_name' => $row['A'],
-                        'filiere_id' => $result['filiere_id']
+                        'filiere_id' => $result['filiere_id'],
+                        'user_id' => $row['C']
                     ];
                 }
 
@@ -71,6 +99,7 @@ class GroupController {
                     foreach ($rows as $row) {
                         $group->setGroupName($row['group_name']);
                         $group->setFiliereId($row['filiere_id']);
+                        $group->setUserId($row['user_id']);
                         $group->add();
                     }
                     echo json_encode(["message" => "Data imported successfully."]);

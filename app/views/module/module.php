@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tr.innerHTML = `
                 <td>${module.module_id}</td>
                 <td>${module.module_name}</td>
-                <td>${module.filiere_name}</td>
+                <td>${module.groupe_name}</td>
                 <td>${module.first_name} ${module.last_name} </td>
 
                 

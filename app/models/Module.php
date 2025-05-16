@@ -10,7 +10,7 @@ class Module
     public static function findAll()
     {
         $db = Database::getInstance()->getConnection();
-        $query = $db->query("SELECT * FROM module m join groupes g on m.groupe_id = g.groupe_id // 修改: filiere -> groupe
+        $query = $db->query("SELECT * FROM module m join groupes g on m.groupe_id = g.groupe_id 
         join enseignant e on m.enseignant_id = e.enseignant_id");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
