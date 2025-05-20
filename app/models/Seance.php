@@ -7,7 +7,6 @@ class Seance
     private $seance_time;
     private $module_id;
     private $annee_id ;
-
     
     public function add()
     {
@@ -69,12 +68,13 @@ class Seance
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
    
-    public  function findEnseignant() {
+    public  function findByEnseignant() {
     $db = Database::getInstance()->getConnection();
-    $query = $db->query("SELECT s.*, e.first_name AS enseignant_first_name,
+    $query = $db->query("SELECT s.*, m.module_name,  g.groupe_name, e.first_name AS enseignant_first_name,
                                  e.last_name AS enseignant_last_name
                               FROM seance s
                               JOIN module m ON m.module_id = s.module_id 
+                              JOIN groupes g ON g.groupe_id = m.groupe_id
                               JOIN enseignant e ON e.enseignant_id = m.enseignant_id Order by seance_id desc");
     return $query->fetchAll(PDO::FETCH_ASSOC);
         }

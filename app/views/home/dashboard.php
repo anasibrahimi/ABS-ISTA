@@ -17,7 +17,12 @@
   <div class="container-fluid p-0">
     <div class="row g-0">
      
-    <?php include __DIR__ . '/../partials/layout.html'; ?>
+      <?php if ($_SESSION['role'] === 'admin'): ?>
+            <?php include __DIR__ . '/../partials/sidebar.html'; ?>
+        <?php endif; ?>
+        <?php if ($_SESSION['role'] === 'gestionnaire'): ?>
+            <?php include __DIR__ . '/../partials/gestionnaireSidebar.html'; ?>
+        <?php endif; ?>
 
 
       <div class="col-12" id="content">

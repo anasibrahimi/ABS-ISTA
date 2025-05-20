@@ -7,7 +7,7 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 <button class="mobile-toggle" id="toggleSidebar"><i class="bi bi-list"></i></button>
-    <?php include __DIR__ . '/../partials/sidebar.html'; ?>
+    <?php include __DIR__ . '/../partials/gestionnaireSidebar.html'; ?>
     <div id="content" class="container mx-auto p-6 flex justify-center items-center min-h-screen">
 
         <div class="ml-64 p-6" id="content">

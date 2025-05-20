@@ -8,7 +8,13 @@
 <button class="mobile-toggle" id="toggleSidebar"><i class="bi bi-list"></i></button>
 <div class="container-fluid p-0">
     <div class="row g-0">
-        <?php include __DIR__ . '/../partials/layout.html'; ?>
+        <?php if ($_SESSION['role'] === 'admin'): ?>
+            <?php include __DIR__ . '/../partials/sidebar.html'; ?>
+        <?php endif; ?>
+        <?php if ($_SESSION['role'] === 'gestionnaire'): ?>
+            <?php include __DIR__ . '/../partials/gestionnaireSidebar.html'; ?>
+        <?php endif; ?>
+
         <div class="col-md-9 offset-md-3 offset-lg-2" id="content">
 
             <nav class="navbar navbar-expand navbar-light bg-white py-1" style="border-bottom: 1px solid black;margin: 10px;">

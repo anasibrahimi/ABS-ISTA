@@ -10,7 +10,13 @@
 <div class="container-fluid p-0">
     <div class="row g-0">
         
-    <?php include __DIR__ . '/../partials/layout.html'; ?>
+      <?php if ($_SESSION['role'] === 'admin'): ?>
+            <?php include __DIR__ . '/../partials/sidebar.html'; ?>
+        <?php endif; ?>
+        <?php if ($_SESSION['role'] === 'gestionnaire'): ?>
+            <?php include __DIR__ . '/../partials/gestionnaireSidebar.html'; ?>
+        <?php endif; ?>
+
         <div class="col-12" id="content">
             <nav class="navbar navbar-expand navbar-light bg-white py-1" style="border-bottom: 1px solid black;margin: 10px;">
                 <div class="container-fluid">
@@ -21,60 +27,22 @@
                 </div>
             </nav>
             <main class="main-content p-2">
-                <h2 class="mb-4" style="color: blue"><i class="bi bi-calendar-check"></i> Gestion des Séances</h2>
-
-                <!-- Barre de filtrage -->
-                <form class="row g-3 align-items-end mb-4">
-                    <div class="col-md-2">
-                        <label for="filterSecteur" class="form-label">Secteur</label>
-                        <select class="form-select" id="filterSecteur">
-                            <option value="GI">GI</option>
-                            <option value="GE">GE</option>
-                            <option value="ER">ER</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="filterClasse" class="form-label">Classe</label>
-                        <select class="form-select" id="filterClasse">
-                            <option value="GI101">GI101</option>
-                            <option value="GI102">GI102</option>
-                            <option value="GE201">GE201</option>
-                            <option value="ER301">ER301</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="filterSeance" class="form-label">Séance</label>
-                        <select class="form-select" id="filterSeance">
-                            <option value="S1">S1: 8:00/10:30</option>
-                            <option value="S2">S2: 11:00/12:30</option>
-                            <option value="S3">S3: 14:00/15:30</option>
-                            <option value="S4">S4: 16:00/17:30</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="filterDate" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="filterDate">
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary w-100">Filtrer</button>
-                    </div>
-                </form>
-
-                <!-- Barre de recherche -->
-                <div class="mb-4">
-                    <div class="input-group">
-                        <span class="input-group-text" id="search-addon"><i class="bi bi-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Rechercher..." aria-label="Recherche" aria-describedby="search-addon">
-                    </div>
+                <h2 class="mb-4" style="color: blue"><i class="bi bi-calendar-check"></i> Historique d'absence</h2>
+                <!-- Champ de recherche -->
+                <div class="mb-3">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par nom complet...">
                 </div>
 
+            
                 <div>
                     <table class="table table-striped table-bordered">
                         <thead class="table-light">
                         <tr>
                             <th>ID</th>
-                            <th>Professeur</th>
-                            <th>Seance</th>
+                            <th>Groupe</th>
+                            <th>Formateur</th>
+                            <th>Module</th>
+                            <th>Séance</th>
                             <th>Date</th>
                             <th>Action</th>
                         </tr>
@@ -83,8 +51,22 @@
                         <?php foreach ($seances as $seance): ?>
                             <tr>
                                 <td><?= htmlspecialchars($seance['seance_id']) ?></td>
+                                <td><?= htmlspecialchars($seance['groupe_name']) ?></td>
                                 <td><?= htmlspecialchars($seance['enseignant_first_name'])." ".htmlspecialchars($seance['enseignant_last_name']) ?></td>
-                                <td><?= htmlspecialchars($seance['seance_time']) ?></td>
+                                <td><?= htmlspecialchars($seance['module_name']) ?></td>
+                                <td>
+                                    <?php if ($seance['seance_time'] == 1): ?>
+                                        <?= 'S1 - 8:00/10:00' ?>
+                                    <?php elseif ($seance['seance_time'] == 2): ?>
+                                        <?= 'S2 - 10:00/12:00' ?>
+                                    <?php elseif ($seance['seance_time'] == 3): ?>
+                                        <?= 'S3 - 14:00/16:00' ?>
+                                    <?php elseif ($seance['seance_time'] == 4): ?>
+                                        <?= 'S4 - 16:00/18:00' ?>
+                                    <?php else: ?>
+                                        <?= "Unknown" ?>
+                                    <?php endif; ?>
+                                </td>
                                 <td><?= htmlspecialchars($seance['seance_date']) ?></td>
                                 <td>
                                     <div class="d-flex gap-2 justify-content-center">

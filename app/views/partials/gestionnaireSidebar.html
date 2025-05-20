@@ -12,7 +12,7 @@
 
     <div class="col-md-3 col-lg-2 sidebar" id="sidebar">
         <div class="d-flex align-items-center justify-content-center">
-            <img src="/ABS-ISTA/app/views/partials/ista-abs.png" alt="Logo" style="width: 140px; height: 100px;">
+            <img src="/ABS-ISTA/app/views/partials/ista-abs.png" alt="Logo" style="width: 140px; height: 50px;">
         </div>
         <div class="sidebar-header d-flex align-items-center justify-content-center">
             <h1 class="h5 mb-0 fw-bold">ISTA-ABS</h1>
@@ -22,38 +22,26 @@
                 <li class="sidebar-menu-item">
                     <a href="/ABS-ISTA/dashboard" class="sidebar-menu-button"><i class="bi bi-speedometer2"></i> Tableau de bord</a>
                 </li>
-                <?php if ($_SESSION['role'] === 'admin'): ?>
                 <li class="sidebar-menu-item">
-                    <a href="/ABS-ISTA/absence/adminView" class="sidebar-menu-button"><i class="bi bi-building"></i> Absences</a>
+                    <a href="/ABS-ISTA/absence/gestionnaireView" class="sidebar-menu-button"><i class="bi bi-building"></i> Absences</a>
                 </li>
-                <?php endif; ?>
-                <?php if ($_SESSION['role'] === 'gestionnaire'): ?>
-                    <li class="sidebar-menu-item">
-                        <a href="/ABS-ISTA/absence/gestionnaireView" class="sidebar-menu-button"><i class="bi bi-building"></i> Absences</a>
-                    </li>
-                <?php endif; ?>
-                <li class="sidebar-menu-item">
+                <!-- <li class="sidebar-menu-item">
                     <a href="/ABS-ISTA/users" class="sidebar-menu-button"><i class="bi bi-person-lines-fill"></i> Gestion de compte</a>
-                </li>
+                </li> -->
                 <li class="sidebar-menu-item">
                     <a href="/ABS-ISTA/seance" class="sidebar-menu-button"><i class="bi bi-calendar-check"></i> Gestion de seance</a>
                 </li>
-                <?php if ($_SESSION['role'] === 'gestionnaire'): ?>
-                    <li class="sidebar-menu-item">
-                        <a href="/ABS-ISTA/absence/gestionnaireView" class="sidebar-menu-button"><i class="bi bi-building"></i> Absences</a>
-                    </li>
-                <?php endif; ?>
                 <li class="sidebar-menu-item dropdown">
                     <a class="sidebar-menu-button dropdown-toggle" id="paramBtn" href="#" role="button" onclick="toggleDropdown('paramDropdown')">
                         <i class="bi bi-gear"></i> Paramètres
                     </a>
                     <ul class="dropdown-menu" id="paramDropdown">
-                        <li><a class="dropdown-item" href="#"> <i class="bi bi-calendar-week"></i> Année universitaire</a></li>
+                        <!-- <li><a class="dropdown-item" href="#"> <i class="bi bi-calendar-week"></i> Année universitaire</a></li>
                         <li><a class="dropdown-item" href="/ABS-ISTA/secteur"> <i class="bi bi-grid"></i> Secteurs</a></li>
                         <li><a class="dropdown-item" href="/ABS-ISTA/filiere"> <i class="bi bi-diagram-3"></i> Filières</a></li>
                         <li><a class="dropdown-item" href="/ABS-ISTA/group"> <i class="bi bi-diagram-3"></i> Groups</a></li>
                         <li><a class="dropdown-item" href="/ABS-ISTA/module"> <i class="bi bi-bookmarks"></i> Modules</a></li>
-                        <li><a class="dropdown-item" href="/ABS-ISTA/enseignant"> <i class="bi bi-diagram-3"></i> Enseignant</a></li>
+                        <li><a class="dropdown-item" href="/ABS-ISTA/enseignant"> <i class="bi bi-diagram-3"></i> Enseignant</a></li> -->
                         <li><a class="dropdown-item" href="/ABS-ISTA/stagiaire"> <i class="bi bi-people"></i> Stagiaires</a></li>
                     </ul>
                 </li>

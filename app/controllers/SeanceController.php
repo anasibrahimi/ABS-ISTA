@@ -5,7 +5,7 @@ class SeanceController {
 
     public function seanceView() {
         $seance = new Seance();
-        $seances = $seance->findEnseignant(); // Fetch all seances dynamically
+        $seances = $seance->findByEnseignant(); // Fetch all seances dynamically
         require_once __DIR__ . '/../views/seance/gestion-seance.php';
         exit();
     }

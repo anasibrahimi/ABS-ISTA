@@ -33,6 +33,7 @@ class Stagiaire
             FROM stagiaire s
              JOIN groupes g ON s.groupe_id =g.groupe_id 
             WHERE g.groupe_name = :groupe_name
+            Order by s.last_name asc
         ");
         $stmt->bindParam(':groupe_name', $groupe_name, PDO::PARAM_STR);
         $stmt->execute();

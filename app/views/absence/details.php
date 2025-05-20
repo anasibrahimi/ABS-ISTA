@@ -8,7 +8,15 @@
 </head>
 <body class="bg-blue-50 text-gray-800">
 <button class="mobile-toggle" id="toggleSidebar"><i class="bi bi-list"></i></button>
-    <?php include __DIR__ . '/../partials/layout.html'; ?>
+
+        <?php if ($_SESSION['role'] === 'admin'): ?>
+            <?php include __DIR__ . '/../partials/sidebar.html'; ?>
+        <?php endif; ?>
+        <?php if ($_SESSION['role'] === 'gestionnaire'): ?>
+            <?php include __DIR__ . '/../partials/gestionnaireSidebar.html'; ?>
+        <?php endif; ?>
+
+
     <div id="content" class="container mx-30 flex justify-center  min-h-screen">
         <div class="w-full max-w-6xl">
             <div class="container mx-auto p-6">
@@ -41,7 +49,15 @@
                                     <td class="border border-blue-200 px-4 py-2"><?= htmlspecialchars($absence['seance_date']) ?></td>
                                     <td class="border border-blue-200 px-4 py-2"><?= htmlspecialchars($absence['module_name']) ?></td>
                                     <td class="border border-blue-200 px-4 py-2"><?= htmlspecialchars($absence['seance_time']) ?></td>
-                                    <td class="border border-blue-200 px-4 py-2"><?= htmlspecialchars($absence['status']) ?></td>
+                                    <td class="border border-blue-200 px-4 py-2">
+                                        <?php if ($absence['status'] === 'Justifiée'): ?>
+                                            <span class="bg-green-500 text-white px-2 py-1 rounded">Justifiée</span>
+                                        <?php elseif ($absence['status'] === 'Absent'): ?>
+                                            <span class="bg-red-500 text-white px-2 py-1 rounded">Absent</span>
+                                        <?php else: ?>
+                                            <?= htmlspecialchars($absence['status']) ?>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

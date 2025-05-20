@@ -17,7 +17,7 @@ class DashboardModel {
                 'value' => (int)$db->query("SELECT COUNT(*) FROM stagiaire")->fetchColumn()
             ],
             [
-                'title' => 'Total professeurs',
+                'title' => 'Total formateurs',
                 'icon'  => 'bi-person-badge-fill',
                 'color' => 'info',
                 'value' => (int)$db->query("SELECT COUNT(*) FROM enseignant")->fetchColumn()
