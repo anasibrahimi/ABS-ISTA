@@ -3,8 +3,8 @@
 class AbsenceController {
     // Method to render the view for adding an absence
     public function addView() {
-        $groupeName = $_GET['groupeName'] ?? null; // Get filiereName from the query string
-        $stagiaires = Stagiaire::findByGroupeName($groupeName); // Fetch stagiaires based on filiereName
+        $groupeName = $_GET['groupeName'] ?? null; 
+        $stagiaires = Stagiaire::findByGroupeName($groupeName); 
         $module = new Module();
         $modules = $module->findByGroupeName($groupeName);
         require_once __DIR__ . '/../views/absence/add.php';
@@ -18,7 +18,6 @@ class AbsenceController {
         require_once __DIR__ . '/../views/absence/filiere.php';
         exit();
     }
-
     public function gestionnaireView() {
         $groups = Groups::findByUserId($_SESSION['user_id']);
         require_once __DIR__ . '/../views/absence/gestionnaire.php';

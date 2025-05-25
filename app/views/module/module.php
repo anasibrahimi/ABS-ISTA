@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(err => {
             console.error(err);
-            alert('Erreur lors de l\'importation.');
+            alert('Erreur lors de l\'importation. ');
         });
     });
 

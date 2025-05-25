@@ -27,13 +27,12 @@ class Module
         $stmt->bindParam(':groupe_name', $groupeName, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
+    }   
     public function bulkInsert($rows) {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("INSERT INTO module (module_name,groupe_id, enseignant_id) VALUES (?, ?, ?)"); 
+        $stmt = $db->prepare("INSERT INTO module (module_name, enseignant_id, groupe_id) VALUES (?, ?, ?)"); 
         foreach ($rows as $row) {
-            $stmt->execute([$row['module_name'], $row['groupe_id'], $row['enseignant_id']]); 
+            $stmt->execute([$row['module_name'], $row['enseignant_id'], $row['groupe_id']]); 
         }
     }
 

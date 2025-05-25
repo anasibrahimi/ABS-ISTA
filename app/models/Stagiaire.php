@@ -48,7 +48,6 @@ class Stagiaire
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
     public function bulkInsert($rows) {
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("INSERT INTO stagiaire ( first_name, last_name, email, phone , groupe_id) VALUES (?, ?, ?, ?, ?)");

@@ -61,18 +61,14 @@ class ModuleController {
                     if ($index === 1) continue; // Ignorer la première ligne (header)
 
                     // Get filiere_id from filiere_name using the model method
-                    $filiereResult = Filiere::findByFiliereName($row['B']);
+                    $groupeResult = Groups::findByGroupeName($row['B']);
                     
                     // Get enseignant_id from first_name and last_name
                     $enseignantResult = Enseignant::findByEnseignantLastName($row['C']);
                     
-                    if (!$filiereResult || !$enseignantResult) {
-                        continue; // Skip if filiere or enseignant not found
-                    }
-
                     $rows[] = [
                         'module_name' => $row['A'] ?? '',
-                        'filiere_id' => $filiereResult['filiere_id'],
+                        'groupe_id' => $groupeResult['groupe_id'],
                         'enseignant_id' => $enseignantResult['enseignant_id']
                     ];
                 }
@@ -83,8 +79,8 @@ class ModuleController {
                 } else {
                     echo json_encode(["error" => "Le fichier Excel est vide ou incorrect."]);
                 }
-
-            } else {
+            }
+            else {
                 http_response_code(500);
                 echo json_encode(["error" => "Erreur lors du déplacement du fichier."]);
             }

@@ -17,10 +17,8 @@ class StagiaireController {
 
     // 3. Télécharger un modèle Excel pour les stagiaires
     public function downloadModelCanva() {
-        $filePath = __DIR__ . '/../resources/canvas/stagiaire-canva.xlsx'; // Attention ici ! corriger le chemin
-
+        $filePath = __DIR__ . '/../resources/canvas/stagiaire-canva.xlsx'; 
         if (file_exists($filePath)) {
-            // Configuration des headers HTTP pour télécharger
             header('Content-Description: File Transfer');
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
@@ -28,7 +26,6 @@ class StagiaireController {
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
             header('Content-Length: ' . filesize($filePath));
-
             readfile($filePath);
             exit();
         } else {
@@ -39,40 +36,31 @@ class StagiaireController {
 
     // 4. Importer un fichier Excel pour insérer des stagiaires
     public function importModelCanva() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excelFile']) && $_FILES['excelFile']['error'] === UPLOAD_ERR_OK) {
-            
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excelFile'])
+             && $_FILES['excelFile']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = __DIR__ . '/../resources/uploads/';
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
-
             $filePath = $uploadDir . basename($_FILES['excelFile']['name']);
-
             if (move_uploaded_file($_FILES['excelFile']['tmp_name'], $filePath)) {
-
-                require_once __DIR__ . '/../../vendor/autoload.php'; // Assurez-vous que PhpSpreadsheet est bien installé
+                require_once __DIR__ . '/../../vendor/autoload.php'; 
                 $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filePath);
                 $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
-
                 $stagiaire = new Stagiaire();
                 $rows = [];
-
                 foreach ($sheetData as $index => $row) {
-                    if ($index === 1) continue; // Ignorer la première ligne (header)
-
-                      // Get filiere_id from filiere_name using the model method
-                      $result = Filiere::findByFiliereName($row['E']);
-                    
+                    if ($index === 1) continue; 
+                      $result = Groups::findByGroupeName($row['E']);
                       if (!$result) {
-                          continue; // Skip if filiere not found
+                          continue; 
                       }
-
                     $rows[] = [
                         'first_name' => $row['A'] ?? '',
                         'last_name' => $row['B'] ?? '',
                         'email' => $row['C'] ?? '',
                         'phone' => $row['D'] ?? '',
-                        'filiere_id' => $result['filiere_id']            
+                        'groupe_id' => $result['groupe_id']            
                      ];
                 }
                 if (!empty($rows)) {
@@ -81,7 +69,6 @@ class StagiaireController {
                 } else {
                     echo json_encode(["error" => "Le fichier Excel est vide ou incorrect."]);
                 }
-
             } else {
                 http_response_code(500);
                 echo json_encode(["error" => "Erreur lors du déplacement du fichier."]);

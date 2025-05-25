@@ -64,7 +64,6 @@ class DashboardModel {
 
     public function getTopAbsents(): array {
         $db = Database::getInstance()->getConnection();
-
         return $db->query("
           SELECT s.stagiaire_id AS id,
                  CONCAT(s.first_name,' ',s.last_name) AS nom,
@@ -103,7 +102,6 @@ class DashboardModel {
 
     public function getTopPresents(): array {
         $db = Database::getInstance()->getConnection();
-
         return $db->query("
           SELECT CONCAT(s.first_name,' ',s.last_name) AS nom,
                  g.groupe_name AS groupe,

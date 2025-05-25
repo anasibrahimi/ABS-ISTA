@@ -24,19 +24,20 @@
                 </li>
                 <?php if ($_SESSION['role'] === 'admin'): ?>
                 <li class="sidebar-menu-item">
-                    <a href="/ABS-ISTA/absence/adminView" class="sidebar-menu-button"><i class="bi bi-building"></i> Absences</a>
+                    <a href="/ABS-ISTA/absence/adminView" class="sidebar-menu-button"><i class="bi bi-building"></i> Mes Groupes</a>
                 </li>
                 <?php endif; ?>
                 <?php if ($_SESSION['role'] === 'gestionnaire'): ?>
                     <li class="sidebar-menu-item">
-                        <a href="/ABS-ISTA/absence/gestionnaireView" class="sidebar-menu-button"><i class="bi bi-building"></i> Absences</a>
+                        <a href="/ABS-ISTA/absence/gestionnaireView" class="sidebar-menu-button"><i class="bi bi-building"></i> Mes Groupes</a>
                     </li>
                 <?php endif; ?>
                 <li class="sidebar-menu-item">
                     <a href="/ABS-ISTA/users" class="sidebar-menu-button"><i class="bi bi-person-lines-fill"></i> Gestion de compte</a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="/ABS-ISTA/seance" class="sidebar-menu-button"><i class="bi bi-calendar-check"></i> Gestion de seance</a>
+                    <a href="/ABS-ISTA/seance" class="sidebar-menu-button"><i class="bi bi-calendar-check"></i> Historique d'absence
+                    </a>
                 </li>
                 <?php if ($_SESSION['role'] === 'gestionnaire'): ?>
                     <li class="sidebar-menu-item">

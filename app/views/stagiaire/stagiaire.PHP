@@ -96,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderStagiaires(stagiaires);
             });
     }
-
     // Afficher les stagiaires dans le tableau
     function renderStagiaires(list) {
         tableBody.innerHTML = '';

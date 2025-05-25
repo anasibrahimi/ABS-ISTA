@@ -81,6 +81,7 @@
                             </td>
                             <td class="border border-gray-300 px-4 py-2">
                                 <?= $stagiaire['first_name'] ?>
+                                <input type="hidden" name="absences[<?= $index ?>][stagiaireId]" value="<?= $stagiaire['stagiaire_id'] ?>">
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
                                 <input type="checkbox" name="absences[<?= $index ?>][status]" value="1" class="rounded"> Absence<!-- Checkbox for status -->
